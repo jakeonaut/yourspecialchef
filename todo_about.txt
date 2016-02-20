@@ -4,21 +4,9 @@ http://v2.yourspecialchef.com/
 -CURRENTLY USING THIS LINK FOR SOME FREE ICONS:: http://findicons.com/
 =============================================================================
 Anna's Requested Update:
+-----------------------------------------------------------------------------
 2. add images to add picture area
 4. right click to pull up context menu to delete image??? (or change mode)
-
-=============================================================================
-***Bugs::
-	-Need to make the "steps" title on a new page (put a soft page break?)
-
-III. DEBUG AND TEST IN OTHER BROWSERS:
-	1. New steps
-	2. Upload Photo
-	3. Photo edit
-	4. Print
-	5. Moving steps, copy & pasting, etc
-	6. Zooming in and out, undo & redo
-	7. New recipe, save recipe, load recipe, account
 
 =======CROSS BROWSER COMPATIBILITY BUGS=======================================
 1. ContentEditable doesn't work in Safari

@@ -29,7 +29,7 @@ Creatable.getDateTime = function(){
 	function AddZero(num) {
 		return (num >= 0 && num < 10) ? "0" + num : num + "";
 	}
-	
+
 	var now = new Date();
     var strDateTime = [[AddZero(now.getDate()), AddZero(now.getMonth() + 1), now.getFullYear()].join("/"), [AddZero(now.getHours()), AddZero(now.getMinutes())].join(":"), now.getHours() >= 12 ? "PM" : "AM"].join(" ");
     return strDateTime;
@@ -78,7 +78,7 @@ Creatable.KeyDown = function(e){
 		if (prevent) e.preventDefault();
 		Creatable.redo();
 	}
-	
+
 	//CTRL + C
 	if (e.keyCode === 67 && e.ctrlKey){
 		if (prevent) e.preventDefault();
@@ -94,7 +94,7 @@ Creatable.KeyDown = function(e){
 		if (prevent) e.preventDefault();
 		Creatable.cut();
 	}
-	
+
 	//CTRL + R
 	if (e.keyCode === 82 && e.ctrlKey){
 		e.preventDefault();
@@ -110,13 +110,13 @@ Creatable.KeyDown = function(e){
 		e.preventDefault();
 		Creatable.ChangeColor('blue');
 	}
-	
+
 	//DELETE
 	if (e.keyCode === 46){
 		if (prevent) e.preventDefault();
 		Creatable.deleteElem();
 	}
-	
+
 	//ENTER
 	if (e.keyCode === 13){
 		if (prevent) e.preventDefault();
@@ -131,9 +131,9 @@ Creatable.clipboardSelf = null;
 Creatable.SelectElement = function(element){
 	$(".selected_element").removeClass("selected_element");
 	if (element === null || $(element) === []) return;
-	
+
 	element = $(element)[0];
-	
+
 	//If it's a section head
 	if (element.className.indexOf("creatable_section_outer") >= 0 && element.className.indexOf("big_section_header") < 0){
 		element.parentNode.className += " selected_element";
@@ -170,7 +170,7 @@ Creatable.paste = function(){
 		if (Creatable.clipboard === null) return;
 		var new_elem = Creatable.clipboard.cloneNode(true);
 		var self = Creatable.clipboardSelf;
-		
+
 		//IF IT'S A section
 		if (new_elem.className.indexOf("creatable_section_outer") >= 0){
 			new_elem.id = "section_" + CreatableCountSections();
@@ -193,7 +193,7 @@ Creatable.paste = function(){
 			}
 			new_elem.id = $(new_elem).children()[0].id + "_container";
 		}
-		
+
 		if (new_elem.className.indexOf("creatable_item_outer") >= 0 && self.className.indexOf("creatable_section_container") >= 0){
 			console.log("!");
 			if ($(self).children().length > 0){
@@ -210,7 +210,7 @@ Creatable.paste = function(){
 				$($(".recipe_page")[0]).append(new_elem);
 			}
 		}
-		
+
 		Creatable.UpdateItemRows();
 		Creatable.SelectElement(new_elem);
 		Creatable.saveState();
@@ -224,7 +224,7 @@ Creatable.cut = function(){
 	}else{
 		Creatable.copy();
 		if ($(".selected_element").length === 0) return;
-		
+
 		Creatable.PartiallyUpdatePages(true);
 		var scroll = Creatable.pageScroll;
 		Creatable.deleteElem();
@@ -252,7 +252,7 @@ Creatable.deleteElem = function(){
 		selected.remove();
 		Creatable.UpdateItemRows();
 		Creatable.saveState();
-		
+
 		Creatable.play(Creatable.delete_element_audio);
 	}
 }
@@ -266,7 +266,7 @@ Creatable.should_save = false;
 Creatable.saveState = function(){
 	Creatable.UpdatePages();
 	Creatable.UpdateImageDragDropEvents();
-	
+
 	//If we haven't changed anything, don't try to save!
 	var current = (" "+$("#creatable").html()+" ").replace(/\s{2,}/g, ' ').replace(/></g,'> <');
 	var old = Creatable.states[Creatable.state_index];
@@ -276,7 +276,7 @@ Creatable.saveState = function(){
 
 	//Reset it so we forget all the "REDOs" after we change something
 	Creatable.states = Creatable.states.slice(0, Creatable.state_index+1);
-	
+
 	//If we have reached the max number of state saves...
 	if (Creatable.states.length >= Creatable.state_limit){
 		//We need to forget a previous state!!!
@@ -284,40 +284,44 @@ Creatable.saveState = function(){
 		Creatable.states = Creatable.states.slice(start, Creatable.states.length);
 		Creatable.state_index = Creatable.states.length-1;
 	}
-	
+
 	Creatable.states.push(current);
 	Creatable.state_index++;
 	Creatable.should_save = false;
+
+    YourSpecialChef.SaveLastRecipe();
 };
 Creatable.restoreState = function(index){
 	$("#creatable").html(Creatable.states[index]);
 	Creatable.state_index = index;
+
+    YourSpecialChef.SaveLastRecipe();
 };
 
 Creatable.undo = function(){
 	if (Creatable.state_index <= 0) return;
-	
+
 	Creatable.restoreState(Creatable.state_index-1);
 	if (Creatable.state_index <= 0 && ($("#undo").css("background-color") === "#43A536" || $("#undo").css("background-color") === "rgb(67, 165, 54)")){
 		$("#undo").css("background-color","#cccccc");
 		$("#undo").css("cursor", "default");
 	}
 	Creatable.UpdateImageDragDropEvents();
-	
+
 	Creatable.DisableImageEditables();
 };
 
 Creatable.redo = function(){
 	if (Creatable.state_index >= Creatable.states.length-1) return
-	
+
 	Creatable.restoreState(Creatable.state_index+1);
-	
+
 	if (Creatable.state_index >= Creatable.states.length-1 && ($("#redo").css("background-color") === "#43A536" || $("#redo").css("background-color") === "rgb(67, 165, 54)")){
 		$("#redo").css("background-color","#cccccc");
 		$("#redo").css("cursor", "default");
 	}
 	Creatable.UpdateImageDragDropEvents();
-	
+
 	Creatable.DisableImageEditables();
 };
 
@@ -340,10 +344,10 @@ Creatable.zoomOut = function(){
 	}
 };
 
-Creatable.zoom = function(change){	
+Creatable.zoom = function(change){
 	Creatable.zoom_level += change;
 	Creatable.setZoomAmount();
-	
+
 	var creatable = $("#creatable")[0];
 	if (creatable.style.zoom !== undefined)
 		creatable.style.zoom = Creatable.zoom_amount + "%";
@@ -380,10 +384,10 @@ Creatable.setZoomAmount = function(){
 Creatable.ChangeSectionColor = function(item, color){
 	var selected = $(".selected_element");
 	selected.removeClass("selected_element");
-	
+
 	$(item).addClass("selected_element");
 	Creatable.ChangeColor(color);
-	
+
 	$(item).removeClass("selected_element");
 	$(selected).addClass("selected_element");
 }
@@ -405,7 +409,7 @@ Creatable.ChangeColor = function(color){
 		}
 		classes = classes.join(' ');
 		item.className = classes;
-		
+
 		//Recursively!!!
 		var children = $(item).children();
 		for (var i = 0; i < children.length; i++){
@@ -416,7 +420,7 @@ Creatable.ChangeColor = function(color){
 	for (var i = 0; i < items.length; i++){
 		recur(items[i], color);
 	}
-	
+
 	Creatable.saveState();
 }
 

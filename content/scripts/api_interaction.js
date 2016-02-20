@@ -12,7 +12,91 @@ Creatable.ProcessingRequest = function(){
 	Creatable.resize();
 }
 
-YourSpecialChef.LogIn = function(){
+YourSpecialChef.New = function(){
+	var current = (" "+$("#creatable").html()+" ").replace(/\s{2,}/g, ' ').replace(/></g,'> <');
+	//EMPTY THE RECIPE
+	$("#creatable").html("");
+
+	//CREATE AND APPEND THE FIRST PAGE
+	var page = Creatable.NewPage();
+	var title = CreateNewTitle("red", "my recipe");
+	title.id = "section_0";
+	var section = CreateNewSection("blue", "you will need:");
+	section.id = "section_1";
+	var section_container = CreateNewSectionContainer(section);
+	section = CreateNewSection("green", "tools:");
+	section.id = "section_2";
+	var section_container2 = CreateNewSectionContainer(section);
+
+	page.appendChild(title);
+	page.appendChild(section_container);
+	page.appendChild(section_container2);
+
+	//CREATE AND APPEND THE SECOND PAGE!!
+	title = CreateNewTitle("red", "steps");
+	title.id = "section_3";
+	$($($(title).children()[0]).children()[1]).html("");
+	var number = CreateNewSectionNumber("red", "1");
+	number.id = "section_4";
+	section_container = CreateNewSectionContainer(number);
+
+	page.appendChild(title);
+	page.appendChild(section_container);
+	$("#creatable")[0].appendChild(page);
+	Creatable.insertPageBreakBefore(title);
+
+	Creatable.saveState();
+
+	YourSpecialChef.Recipe = {
+		id:YourSpecialChef.GetNewRecipeID(),
+		title:Creatable.getTitle(),
+		data:Creatable.getState(),
+		datetime:Creatable.getDateTime()
+	};
+}
+
+//BUILT IN IMAGES
+YourSpecialChef.GetPictures = function(callback){
+	//TODO::
+	//I don't know what the client will look like :)
+    $.get("recipe-creator-get-pictures.json", { },
+        function(result){
+            result = $.parseJSON(result);
+			if (result.success){
+				callback(result.pictures);
+				//Array of picture objects of this form
+				/*picture = {
+					"category": "food",
+					"name": "soft taco shells",
+					"src": "content/images/recipe/softtacoshells.png"
+				};*/
+			}
+        }
+    );
+}
+
+YourSpecialChef.SaveLastRecipe = function(){
+	var recipe_json = Creatable.getState();
+    if (typeof(Storage) !== "undefined")
+        localStorage.setItem("yourspecialchef_recipe", recipe_json);
+}
+
+YourSpecialChef.RememberLastRecipe = function(){
+    if (typeof(Storage) === "undefined") return false;
+
+    try{
+        var recipe_json = localStorage.getItem("yourspecialchef_recipe");
+        if (recipe_json === null || recipe_json === undefined || recipe_json === "null")
+            return false;
+        $("#creatable").html(recipe_json);
+    }catch(e){
+        console.log(e);
+        return false;
+    }
+    return true;
+}
+
+/*YourSpecialChef.LogIn = function(){
 	//username is email, should error check?
 	var email = $("#login_username").val();
 	var password = $("#login_password").val();
@@ -98,7 +182,7 @@ YourSpecialChef.IsSignedIn = function(){
 YourSpecialChef.LogOut = function(){
 	YourSpecialChef.account_email = null;
 	YourSpecialChef.account_password = null;
-}
+}*/
 
 YourSpecialChef.GetNewRecipeID = function(){
 	var recipe_id = 0;
@@ -118,50 +202,7 @@ YourSpecialChef.GetNewRecipeID = function(){
 	return recipe_id;
 }
 
-YourSpecialChef.New = function(){
-	var current = (" "+$("#creatable").html()+" ").replace(/\s{2,}/g, ' ').replace(/></g,'> <');
-	//EMPTY THE RECIPE
-	$("#creatable").html("");
-
-	//CREATE AND APPEND THE FIRST PAGE
-	var page = Creatable.NewPage();
-	var title = CreateNewTitle("red", "my recipe");
-	title.id = "section_0";
-	var section = CreateNewSection("blue", "you will need:");
-	section.id = "section_1";
-	var section_container = CreateNewSectionContainer(section);
-	section = CreateNewSection("green", "tools:");
-	section.id = "section_2";
-	var section_container2 = CreateNewSectionContainer(section);
-
-	page.appendChild(title);
-	page.appendChild(section_container);
-	page.appendChild(section_container2);
-
-	//CREATE AND APPEND THE SECOND PAGE!!
-	title = CreateNewTitle("red", "steps");
-	title.id = "section_3";
-	$($($(title).children()[0]).children()[1]).html("");
-	var number = CreateNewSectionNumber("red", "1");
-	number.id = "section_4";
-	section_container = CreateNewSectionContainer(number);
-
-	page.appendChild(title);
-	page.appendChild(section_container);
-	$("#creatable")[0].appendChild(page);
-	Creatable.insertPageBreakBefore(title);
-
-	Creatable.saveState();
-
-	YourSpecialChef.Recipe = {
-		id:YourSpecialChef.GetNewRecipeID(),
-		title:Creatable.getTitle(),
-		data:Creatable.getState(),
-		datetime:Creatable.getDateTime()
-	};
-}
-
-YourSpecialChef.Save = function(){
+/*YourSpecialChef.Save = function(){
 	Creatable.saveState();
 	YourSpecialChef.Recipe = {
 		id: YourSpecialChef.Recipe.id,
@@ -205,9 +246,9 @@ YourSpecialChef.Save = function(){
 			}
 		);
 	}
-}
+}*/
 
-YourSpecialChef.Submit = function(){
+/*YourSpecialChef.Submit = function(){
 	var difficulty = $("#submit_difficulty").val();
 	var category = $("#submit_category").val();
 	var sub_category = $("#submit_sub_category").val();
@@ -243,9 +284,9 @@ YourSpecialChef.Submit = function(){
 			Creatable.resize();
 		}
 	);
-}
+}*/
 
-YourSpecialChef.MyRecipes = function(callback){
+/*YourSpecialChef.MyRecipes = function(callback){
 	//Creatable.ProcessingRequest();
 	//TODO::
 	//I don't know what the client will look like :)
@@ -261,30 +302,10 @@ YourSpecialChef.MyRecipes = function(callback){
 					title:"Cheese Quesadilla",
 					data:Creatable.getState(), //the html markup of the recipe
 					datetime:Creatable.getDateTime() //time recipe wasa saved
-				};	*/
+				};
 				//Each individual recipe from the array is of the same format
 				//as the recipe object sent to server through the YourSpecialChef.Save method
 			}
 		}
 	);
-}
-
-//BUILT IN IMAGES
-YourSpecialChef.GetPictures = function(callback){
-	//TODO::
-	//I don't know what the client will look like :)
-    $.get("recipe-creator-get-pictures.json", { },
-        function(result){
-            result = $.parseJSON(result);
-			if (result.success){
-				callback(result.pictures);
-				//Array of picture objects of this form
-				/*picture = {
-					"category": "food",
-					"name": "soft taco shells",
-					"src": "content/images/recipe/softtacoshells.png"
-				};*/
-			}
-        }
-    );
-}
+}*/
