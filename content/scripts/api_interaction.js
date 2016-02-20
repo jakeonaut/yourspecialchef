@@ -59,7 +59,7 @@ YourSpecialChef.New = function(){
 YourSpecialChef.GetPictures = function(callback){
 	//TODO::
 	//I don't know what the client will look like :)
-    $.get("recipe-creator-get-pictures.json", { },
+    $.get("./recipe-creator-get-pictures.json", { },
         function(result){
             result = $.parseJSON(result);
 			if (result.success){
