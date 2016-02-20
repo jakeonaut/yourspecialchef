@@ -25,6 +25,7 @@ $(function(){
         // Code for localStorage/sessionStorage.
         if (!YourSpecialChef.RememberLastRecipe())
             YourSpecialChef.New();
+        YourSpecialChef.RememberUploadedImages();
     } else {
         // Sorry! No Web Storage support..
         YourSpecialChef.New();

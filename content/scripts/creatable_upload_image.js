@@ -6,7 +6,7 @@ var cui_mTop;
 var UploadImage = function(ev, filler){
 	$("#uploaded_picture_cropper_container").css("display", "block");
 	$("#cropper_grey_out").css("display", "block");
-	
+
 	SetupImageCropDialog(ev);
 	$("#image_name_input").css("margin-bottom", "10px");
 	$("#cropper_submit").unbind('click').bind('click', function(e){
@@ -14,26 +14,27 @@ var UploadImage = function(ev, filler){
 		img.src = ev.target.result;
 		$(img).css("display", "none");
 		$("body").append($(img));
-		
+
 		var ratio = $(img).width() / $("#target").width();
-	
+
 		var co = document.createElement('canvas');
 		console.log($(img).width() + ", " + $(img).height());
 		co.width = $(img).width();
 		co.height = $(img).height();
 		co.getContext('2d').drawImage(img, 0, 0, co.width, co.height);
-		
+
 		var c = document.createElement('canvas');
-		c.width = cui_width*ratio; 
+		c.width = cui_width*ratio;
 		c.height = cui_height*ratio;
-		c.getContext('2d').drawImage(co, 
-			cui_mLeft*ratio, cui_mTop*ratio, 
-			cui_width*ratio, cui_height*ratio, 
+		c.getContext('2d').drawImage(co,
+			cui_mLeft*ratio, cui_mTop*ratio,
+			cui_width*ratio, cui_height*ratio,
 			0, 0, c.width, c.height);
-		
+
 		var img_name = $("#image_name_input").val();
-	
+
 		Creatable.uploadedImagesCache.push({name: img_name, src: c.toDataURL()});
+        YourSpecialChef.SaveUploadedImages();
 		CloseDialogs();
 		SelectUploadPicture(filler);
 		$(img).remove();
@@ -46,36 +47,36 @@ var SetupImageCropDialog = function(ev){
 	$("#cropper_div").html('');
 	var target = document.createElement('img');
 	target.id = 'target';
-	
+
 	var preview_pane = document.createElement('div');
 	preview_pane.id = 'preview-pane';
 	preview_pane.innerHTML = "preview";
-	
+
 	var preview_container = document.createElement('div');
 	preview_container.className = 'preview-container';
-	
+
 	var img = document.createElement('img');
 	img.className = "jcrop-preview";
-	
+
 	var image_name_input = document.createElement('input');
 	image_name_input.type = "text";
 	image_name_input.value = "Picture " + (Creatable.uploadedImagesCache.length + 1);
 	image_name_input.maxLength = "20";
 	image_name_input.marginBottom = "10px";
 	image_name_input.id = "image_name_input";
-	
+
 	var title_text = document.createElement("h3");
 	title_text.innerHTML = "Picture Title: ";
 	title_text.style.marginTop = "0px";
 	title_text.style.marginBottom = "3px";
-	
+
 	$("#cropper_div").append(title_text);
 	$("#cropper_div").append(image_name_input);
 	$("#cropper_div").append(target);
 	preview_container.appendChild(img);
 	preview_pane.appendChild(preview_container);
 	$("#cropper_div").append(preview_pane);
-	
+
 	//Render thumbnail
 	$("#target")[0].src = ev.target.result;
 	$("#preview-pane .preview-container img")[0].src = ev.target.result;
@@ -92,7 +93,7 @@ var SetupImageCropDialog = function(ev){
 
 		xsize = $pcnt.width(),
 		ysize = $pcnt.height();
-	
+
 	$('#target').Jcrop({
 	  onChange: updatePreview,
 	  onSelect: updatePreview,
@@ -108,7 +109,7 @@ var SetupImageCropDialog = function(ev){
 	  // Move the preview into the jcrop container for css positioning
 	  $preview.appendTo(jcrop_api.ui.holder);
 	});
-	
+
 	var src = ev.target.result;
 	function updatePreview(c)
 	{
@@ -121,7 +122,7 @@ var SetupImageCropDialog = function(ev){
 		cui_height = c.h;
 		cui_mLeft = c.x;
 		cui_mTop = c.y;
-		
+
 		$pimg.css({
 		  width: Math.round(rx * boundx) + 'px',
 		  height: Math.round(ry * boundy) + 'px',
@@ -136,6 +137,6 @@ var SetupImageCropDialog = function(ev){
 	}else{ c.w = $("#target").width(); }
 	c.h = c.w;
 	updatePreview(c);
-	
+
 	Creatable.resize(false);
 }

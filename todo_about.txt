@@ -5,8 +5,12 @@ http://v2.yourspecialchef.com/
 =============================================================================
 Anna's Requested Update:
 -----------------------------------------------------------------------------
-2. add images to add picture area
-4. right click to pull up context menu to delete image??? (or change mode)
+1. allow deleting uploaded images
+    (right click?) and remove from local storage
+2. right click to pull up context menu to delete image??? (or change mode)
+3. add images to add picture area
+
+***BUG::: sometimes loading loads wonkily???
 
 =======CROSS BROWSER COMPATIBILITY BUGS=======================================
 1. ContentEditable doesn't work in Safari

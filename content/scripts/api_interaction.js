@@ -96,6 +96,28 @@ YourSpecialChef.RememberLastRecipe = function(){
     return true;
 }
 
+YourSpecialChef.SaveUploadedImages = function(){
+    var uploaded_images_json = JSON.stringify(Creatable.uploadedImagesCache);
+    if (typeof(Storage) !== "undefined")
+        localStorage.setItem("yourspecialchef_uploadedimages", uploaded_images_json);
+}
+
+YourSpecialChef.RememberUploadedImages = function(){
+    if (typeof(Storage) === "undefined") return false;
+
+    try{
+        var uploaded_images_json = localStorage.getItem("yourspecialchef_uploadedimages");
+        Creatable.uploadedImagesCache = JSON.parse(uploaded_images_json);
+    }catch(e){
+        console.log(e);
+    }
+
+    if (Creatable.uploadedImagesCache === null || Creatable.uploadedImagesCache === undefined ||
+        Creatable.uploadedImagesCache === "null"){
+            Creatable.uploadedImagesCache = [];
+    }
+}
+
 /*YourSpecialChef.LogIn = function(){
 	//username is email, should error check?
 	var email = $("#login_username").val();
