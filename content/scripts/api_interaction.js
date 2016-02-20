@@ -16,9 +16,9 @@ YourSpecialChef.LogIn = function(){
 	//username is email, should error check?
 	var email = $("#login_username").val();
 	var password = $("#login_password").val();
-	
+
 	Creatable.ProcessingRequest();
-	
+
 	//TODO...
 	//I don't know what the client will look like :)
 	$.post("recipe-creator-log-in.php",
@@ -28,19 +28,19 @@ YourSpecialChef.LogIn = function(){
 		function(result){
 			result = $.parseJSON(result);
 			$("#message_dialog").css("display", "block");
-			
+
 			if (result.success){
 				YourSpecialChef.account_email = email;
 				YourSpecialChef.account_password = password;
-				
+
 				$("#message_dialog_title").html("Log In Success");
 				$("#message_dialog_body").html("You have successfully logged into the account.");
-				
+
 				$("#account_button").html("LOG OUT");
 			}else{
 				YourSpecialChef.account_email = null;
 				YourSpecialChef.account_password = null;
-				
+
 				$("#message_dialog_title").html("Log In Failure");
 				$("#message_dialog_body").html("Email or Password is incorrect.");
 			}
@@ -56,9 +56,9 @@ YourSpecialChef.SignUp = function(){
 	var email = $("#signup_username").val();
 	var password = $("#signup_password").val();
 	var verify_password = $("#signup_verify_password").val();
-	
+
 	Creatable.ProcessingRequest();
-	
+
 	//TODO::
 	//I don't know what the client will look like :)
 	$.post("recipe-creator-sign-up.php",
@@ -72,19 +72,19 @@ YourSpecialChef.SignUp = function(){
 			if (result.success){
 				YourSpecialChef.account_email = email;
 				YourSpecialChef.account_password = password;
-				
+
 				$("#message_dialog_title").html("Sign Up Success");
 				$("#message_dialog_body").html("You have successfully signed up for the account.<br/>You are now logged in.");
-				
+
 				$("#account_button").html("LOG OUT");
 			}else{
 				YourSpecialChef.account_email = null;
 				YourSpecialChef.account_password = null;
-				
+
 				$("#message_dialog_title").html("Sign Up Failure");
 				$("#message_dialog_body").html("Email is already in use.<br/>Or passwords do not match.");
 			}
-						
+
 			$("#cropper_grey_out").css("display", "block");
 			Creatable.resize();
 		}
@@ -122,7 +122,7 @@ YourSpecialChef.New = function(){
 	var current = (" "+$("#creatable").html()+" ").replace(/\s{2,}/g, ' ').replace(/></g,'> <');
 	//EMPTY THE RECIPE
 	$("#creatable").html("");
-	
+
 	//CREATE AND APPEND THE FIRST PAGE
 	var page = Creatable.NewPage();
 	var title = CreateNewTitle("red", "my recipe");
@@ -137,7 +137,7 @@ YourSpecialChef.New = function(){
 	page.appendChild(title);
 	page.appendChild(section_container);
 	page.appendChild(section_container2);
-	
+
 	//CREATE AND APPEND THE SECOND PAGE!!
 	title = CreateNewTitle("red", "steps");
 	title.id = "section_3";
@@ -145,14 +145,14 @@ YourSpecialChef.New = function(){
 	var number = CreateNewSectionNumber("red", "1");
 	number.id = "section_4";
 	section_container = CreateNewSectionContainer(number);
-	
+
 	page.appendChild(title);
 	page.appendChild(section_container);
 	$("#creatable")[0].appendChild(page);
 	Creatable.insertPageBreakBefore(title);
-	
+
 	Creatable.saveState();
-	
+
 	YourSpecialChef.Recipe = {
 		id:YourSpecialChef.GetNewRecipeID(),
 		title:Creatable.getTitle(),
@@ -170,7 +170,7 @@ YourSpecialChef.Save = function(){
 		datetime:Creatable.getDateTime()
 	}
 	var recipe_json = JSON.stringify(YourSpecialChef.Recipe);
-	
+
 	//TODO...
 	//I don't know what the client will look like :)
 	if (YourSpecialChef.account_email === null){
@@ -179,7 +179,7 @@ YourSpecialChef.Save = function(){
 		$("#message_dialog_body").html("Must create an account to save recipes.");
 	}else{
 		Creatable.ProcessingRequest();
-	
+
 		$.post("recipe-creator-save-recipe.php",
 			{ email: YourSpecialChef.account_email,
 				password: YourSpecialChef.account_password,
@@ -199,7 +199,7 @@ YourSpecialChef.Save = function(){
 					$("#message_dialog_title").html("Failure");
 					$("#message_dialog_body").html("An error occured while trying to save.");
 				}
-								
+
 				$("#cropper_grey_out").css("display", "block");
 				Creatable.resize();
 			}
@@ -212,9 +212,9 @@ YourSpecialChef.Submit = function(){
 	var category = $("#submit_category").val();
 	var sub_category = $("#submit_sub_category").val();
 	var creator = $("#submit_creator").val();
-	
+
 	Creatable.ProcessingRequest();
-	
+
 	//TODO::
 	//I don't know what the client will look like :)
 	$.post("recipe-creator-submit-recipe.php",
@@ -238,7 +238,7 @@ YourSpecialChef.Submit = function(){
 				$("#message_dialog_title").html("Failure");
 				$("#message_dialog_body").html("An error occured while trying to submit.");
 			}
-			
+
 			$("#cropper_grey_out").css("display", "block");
 			Creatable.resize();
 		}
@@ -273,19 +273,19 @@ YourSpecialChef.MyRecipes = function(callback){
 YourSpecialChef.GetPictures = function(callback){
 	//TODO::
 	//I don't know what the client will look like :)
-	$.post("recipe-creator-get-pictures.php",
-		{ },
-		function(result){
-			result = $.parseJSON(result);
+    $.get("recipe-creator-get-pictures.json", { },
+        function(result){
+            console.log(result);
+            result = $.parseJSON(result);
 			if (result.success){
 				callback(result.pictures);
 				//Array of picture objects of this form
 				/*picture = {
-					category: 'food',
-					name: 'soft taco shells',
-					src: 'content/images/recipe/softtacoshells.png'
+					"category": "food",
+					"name": "soft taco shells",
+					"src": "content/images/recipe/softtacoshells.png"
 				};*/
 			}
-		}
-	);
+        }
+    );
 }

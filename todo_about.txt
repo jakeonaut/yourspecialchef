@@ -4,7 +4,6 @@ http://v2.yourspecialchef.com/
 -CURRENTLY USING THIS LINK FOR SOME FREE ICONS:: http://findicons.com/
 =============================================================================
 Anna's Requested Update:
-0. Remove cheese from add step item
 1. Print Changes:
     a. hide trashcan
     b. hide my recipes/save recipe/login/etc

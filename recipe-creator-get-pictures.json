@@ -1,0 +1,25 @@
+{
+    "success": true,
+    "pictures": [
+        {
+            "category": "food",
+            "name": "soft taco shells",
+            "src": "content/images/recipe/softtacoshells.png"
+        },
+        {
+            "category": "food",
+            "name": "cheese",
+            "src": "content/images/recipe/cheese.png"
+        },
+        {
+            "category": "tools",
+            "name": "plate",
+            "src": "content/images/recipe/plate.png"
+        },
+        {
+            "category": "tools",
+            "name": "knife",
+            "src": "content/images/recipe/knife.png"
+        }
+    ]
+}
