@@ -1,0 +1,10 @@
+#titlebar,#sidebar,#quickbar{
+	/*display:none; doesn't work. can't have children be visible if parent isn't :/*/
+	position:relative;
+	left:-9999px;
+}
+#creatable{
+	position: absolute;
+	left:0;
+	top:0;
+}

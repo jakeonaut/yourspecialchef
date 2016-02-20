@@ -1,0 +1,4 @@
+Things to Make evident most importantly:
+	1. Right click a step to change to "edit mode" for images
+	2. There is a limit of 5 images per step
+	3. Images in a step can be deleted by clicking the x at the top right corner, or by pressing "delete" when selected

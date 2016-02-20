@@ -1,0 +1,329 @@
+<html>
+<head>
+<title>Recipe Creator</title>
+<!--force JSON to be null so we can use json2 so we can guarantee no text limit on stringify-->
+<script type="text/javascript"> 
+	JSON = {}; 
+	JSON.stringify = null;
+</script>
+<!--https://github.com/douglascrockford/JSON-js-->
+<script type="text/javascript" src="content/scripts/json2.js"></script>
+<script type="text/javascript" src="content/scripts/jquery-1.11.1.min.js"></script>
+<!--JQUERY UI!!-->
+<script type="text/javascript" src="content/scripts/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="content/jquery-ui.min.css">
+<!--JCROP-->
+<script type="text/javascript" src="content/scripts/jquery.Jcrop.min.js"></script>
+<!--https://github.com/dropbox/zxcvbn-->
+<script type="text/javascript" src="content/scripts/zxcvbn-async.js"></script>
+
+<script type="text/javascript" src="content/scripts/creatable.js"></script>
+<script type="text/javascript" src="content/scripts/creatable_dragdrop.js"></script>
+<script type="text/javascript" src="content/scripts/creatable_dragdrop_utils.js"></script>
+<script type="text/javascript" src="content/scripts/creatable_image_edit.js"></script>
+<script type="text/javascript" src="content/scripts/creatable_newitems.js"></script>
+<script type="text/javascript" src="content/scripts/creatable_utils.js"></script>
+<script type="text/javascript" src="content/scripts/creatable_upload_image.js"></script>
+<script type="text/javascript" src="content/scripts/buttons.js"></script>
+<script type="text/javascript" src="content/scripts/main.js"></script>
+<!--functions to interact with main website database stuff maybe?-->
+<script type="text/javascript" src="content/scripts/api_interaction.js"></script>
+
+<!--<link rel="stylesheet" type="text/css" href="content/reset.css">-->
+<link rel="stylesheet" type="text/css" href="content/style.css">
+<link rel="stylesheet" type="text/css" href="content/creatable.css">
+<link rel="stylesheet" type="text/css" href="content/jquery.Jcrop.min.css">
+<!--<link rel="stylesheet" type="text/css" media="print" href="content/print.css">-->
+</head>
+<body>
+	<table id="titlebar">
+		<tr>
+			<td class="filler_button" style="width:226px;">YOUR SPECIAL CHEF</td>
+		
+			<td class="row_button" id="new_recipe">NEW RECIPE</td>
+			
+			<td class="row_button" id="my_recipes">
+				MY RECIPES
+				<ul id="my_recipe_list">
+				</ul>
+			</td>
+			
+			<td class="row_button" id="save_recipe">SAVE RECIPE</td>
+		
+			<td class="row_button no_hover"> </td>
+			
+			<td class="row_button" id="submit_recipe">SUBMIT RECIPE</td>
+			
+			<td class=""></td>
+			
+			<td class="row_button" id="print_recipe">PRINT</td>
+			
+			<td class="row_button" id="account_button">LOG IN</td>
+		</tr>
+	</table>
+	<div id="sidebar">
+		<div class="filler_button" style="height:34px;">YOUR SPECIAL CHEF</div>
+		<div class="horizontal_divider"><div class="hd"></div></div>
+		<div class="col_button" id="add_step">ADD STEP</div>
+		<div class="horizontal_divider"><div class="hd"></div></div>
+		<div class="col_button" id="add_picture">ADD PICTURE</div>
+		<div class="horizontal_divider"><div class="hd"></div></div>
+		<div class="col_button" id="upload_picture">UPLOAD PICTURE</div>
+		<div class="horizontal_divider"><div class="hd"></div></div>
+	</div>
+	<table id="quickbar">
+		<tr>
+			<td id="undo" class="img_button" title="Undo (CTRL+Z)">
+				undo:<br/>
+				<img src="content/images/undo.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="redo" class="img_button" title="Redo (CTRL+Y)">
+				redo:<br/>
+				<img src="content/images/redo.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="zoom_out" class="img_button" title="Zoom Out">
+				zoom out:
+				<img src="content/images/zoom_out.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="zoom_in" class="img_button" title="Zoom In">
+				zoom in:
+				<img src="content/images/zoom_in.png">
+			</td>
+		</tr>
+		
+		<tr><td><div style="visibility:hidden;">filler</div></td></tr>
+		<tr><td><div style="visibility:hidden;">filler</div></td></tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		
+		<tr>
+			<td id="cut" class="img_button" title="Cut Step (CTRL+X)">
+				cut:<br/>
+				<img src="content/images/cut.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="copy" class="img_button" title="Copy Step (CTRL+C)">
+				copy:<br/>
+				<img src="content/images/copy.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="paste" class="img_button" title="Paste Step (CTRL+V)">
+				paste:<br/>
+				<img src="content/images/paste.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="delete" class="img_button" title="Delete Step (DEL)">
+				delete:<br/>
+				<img src="content/images/delete.png">
+			</td>
+		</tr>
+		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
+		<tr>
+			<td id="paint" class="img_button" title="Recolor Step">
+				color:<br/>
+				<img src="content/images/paint.png" width="24" height="24">
+				
+				<div id="color-menu">
+					<div class="color-menu-option" title="Change Red (CTRL+R)">
+						<div id="color-menu-option-1" class="red_color color-menu-option-inner"></div>
+					</div>
+					<div class="color-menu-option" title="Change Green (CTRL+G)">
+						<div id="color-menu-option-2" class="green_color color-menu-option-inner"></div>
+					</div>
+					<div class="color-menu-option" title="Change Blue (CTRL+B)">
+						<div id="color-menu-option-3" class="blue_color color-menu-option-inner"></div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr><td><div style="visibility:hidden;">filler</div></td></tr>
+	</table>
+	<div id="zoom_test_container">
+		<div id="zoom_test_div">helo</div>
+	</div>
+	<div id="creatable_container">
+		<div id="creatable">
+		</div>
+		<div id="trashcan">
+			<img id="trashlid" src="content/images/trashlid.png"/><br/>
+			<img src="content/images/trashbody.png"/>
+		</div>
+	</div>
+	
+	<!--DIALOG MARKUP-->
+	<div id="message_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2 id="message_dialog_title">Alert</h2>
+		</div>
+		<div class="modal-body" id="message_dialog_body">
+			Message.
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Okay" onclick="CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	
+	<div id="confirm_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2 id="confirm_dialog_title">Alert</h2>
+		</div>
+		<div class="modal-body" id="confirm_dialog_body">
+			Message.
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input id="confirm_dialog_button" type="submit" value="Confirm" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+		
+	<div id="new_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>New Recipe</h2>
+		</div>
+		<div class="modal-body">
+			Are you sure you wish to create a new recipe?<br/><br/>
+			You will lose any unsaved changes.
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="New Recipe" onclick="YourSpecialChef.New(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	
+	<div id="save_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Save Recipe</h2>
+		</div>
+		<div class="modal-body">
+			Are you sure you wish to save your recipe?<br/><br/>
+			This will overwrite any previous changes.
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Save Recipe" onclick="YourSpecialChef.Save(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	
+	<div id="submit_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Submit Your Recipe</h2>
+		</div>
+		<div class="modal-body">
+			<!--Should the email not be here? Since it's the user account name?-->
+			<b>Difficulty</b><br/>
+			<select id="submit_difficulty" style="margin-top: 4px;">
+				<option value="">Choose Recipe Difficulty...</option>
+				<option value="easy">Easy</option>
+				<option value="intermediate">Intermediate</option>
+				<option value="hard">Hard</option>
+			</select><br/><br/>
+			<b>Category</b><br/>
+			<select id="submit_category" style="margin-top: 4px;">
+				<option value="">Choose Recipe Category...</option>
+				<option value="snacks">Snacks</option>
+				<option value="main_dishes">Main Dishes</option>
+				<option value="beverages">Beverages</option>
+				<option value="side_dishes">Side Dishes</option>
+				<option value="breakfasts">Breakfasts</option>
+				<option value="desserts">Dessets</option>
+			</select><br/><br/>
+			<b>Sub-category</b><br/>
+			<input type="text" id="submit_sub_category" name="submitSubCategory" placeholder="Sub-category" style="margin-top: 4px;"><br/><br/>
+			<b>Creator</b><br/>
+			<input type="text" id="submit_username" name="submitUsername" placeholder="Your Email" style="margin-top: 4px;"><br/><br/>
+			<b>Comments for Your Special Chef</b><br/>
+			<textarea id="submit_message" name="submitMessage" placeholder="Leave a message..." cols="40" rows="5" style="margin-top: 4px;"></textarea>
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Submit" onclick="YourSpecialChef.Submit(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	
+	<div id="account_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Log In to Account</h2>
+		</div>
+		<div class="modal-body">
+			<input type="text" id="login_username" name="loginUsername" class="signup_text" placeholder="Email"><br/>
+			<input type="password" id="login_password" name="loginPassword" class="signup_text" placeholder="Password"><br/>
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Sign Up" onclick="Creatable.OpenSignUpDialog();" class="btn btn-primary"/>
+			<input type="submit" value="Log In" onclick="YourSpecialChef.LogIn(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	
+	<div id="signup_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Sign Up for Account</h2>
+		</div>
+		<div class="modal-body">
+			<input type="text" id="signup_username" name="signupUsername" placeholder="Email" class="signup_text"><div style="color: #ffaaaa;" id="signup_username_verification"></div><br/>
+			<input type="password" id="signup_password" name="signupPassword" placeholder="Password" class="signup_text"><div style="color: #ffaaaa;" id="signup_password_verification"></div><br/>
+			<input type="password" id="verify_signup_password" name="verifySignupPassword" placeholder="Verify Password" class="signup_text"><div style="color: #ffaaaa;" id="verify_signup_password_verification"></div><br/>
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Sign Up" onclick="YourSpecialChef.SignUp(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	
+	<div id="logout_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Log Out</h2>
+		</div>
+		<div class="modal-body">
+			<div>Log out of your account?</div>
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Log Out" onclick="YourSpecialChef.LogOut(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+			
+	<div id="uploaded_picture_cropper_container" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Crop Uploaded Picture</h2>
+		</div>
+		<div id="cropper_div" class="modal-body">
+			<input type="text" id="uploaded_image_name" />
+			<img id="target" />
+			<div id="preview-pane">
+				<div class="preview-container">
+					<img class="jcrop-preview" />
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input id="cropper_submit" type="submit" value="Upload" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+	<div id="cropper_grey_out"></div>
+</body>
+</html>
