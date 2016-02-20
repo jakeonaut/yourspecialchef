@@ -25,7 +25,7 @@ table,th,td{
 	vertical-align: middle;
 	font-family: arial;
 	font-size: 12px;
-	
+
 	background: $main_color;
 	color: $font_color;
 }
@@ -41,9 +41,9 @@ td ul {
   width: 150px;
   display: none;
 }
-td ul li { 
-  background: #555; 
-  display: block; 
+td ul li {
+  background: #555;
+  display: block;
   color: #fff;
   text-shadow: 0 -1px 0 #000;
   font-size:24px;
@@ -76,12 +76,12 @@ td ul li:hover { background: #666; }
 	top:0px;
 	left:0px;
 	z-index: 2;
-	
+
 	text-align: center;
 	vertical-align: middle;
 	font-family: arial;
 	font-size: 12px;
-	
+
 	background: $main_color;
 	color: $font_color;
 }
@@ -172,7 +172,7 @@ td ul li:hover { background: #666; }
 	background: rgb(55, 55, 55);
 	background: rgba(55, 55, 55, 0.5);
 	display: none;
-	
+
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -183,9 +183,8 @@ td ul li:hover { background: #666; }
 	width: $button_width;
 	height: $button_height;
 	font-weight: bold;
-	font-family: "Comic Sans MS", cursive, sans-serif;
 }
-.col_button{ 
+.col_button{
 	display: table-cell;
 	padding: 15px;
 	width: 256px;
@@ -197,24 +196,25 @@ td ul li:hover { background: #666; }
 	background: $font_color;
 	color: $main_color;
 }
-.row_button{ 
+.row_button{
 	padding: 15px;
-	width: $button_width; 
+	width: $button_width;
 	height: 64px;
 	cursor: pointer;
 }
-.row_button:hover{
-	background: $font_color;
-	color: $main_color;
+.row_button:hover {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+  font-weight: bold;
 }
 .no_hover:hover{
 	cursor:default;
 	/*background: $main_color;
 	color: $font_color;*/
 }
-.side_button{ 
+.side_button{
 	padding: 5px;
-	width: $button_height; 
+	width: $button_height;
 	height: $button_height;
 	cursor: pointer;
 }
@@ -271,8 +271,8 @@ td ul li:hover { background: #666; }
 	padding-left: $padding;
 	padding-right: $padding;
 }
-.wide_button{ 
-	width: 96px; 
+.wide_button{
+	width: 96px;
 }
 .vertical_divider{
 	width: 1px;
@@ -552,7 +552,7 @@ fieldset[disabled] .btn-primary.active {
 	font-family: arial;
 	display: none;
     border-radius: 12px;
-	
+
 	position: absolute;
 	top: 0px;
 	left: 0px;

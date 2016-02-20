@@ -28,7 +28,7 @@ $creatable_page_height: 1040px;
 	bottom:0px;
 	position:fixed;
 	overflow:auto;
-	
+
 	box-shadow:         inset 0 0 10px #000000;
 }
 #creatable{
@@ -106,7 +106,7 @@ $creatable_page_height: 1040px;
 .creatable_section_outer{
 	display: table;
 	cursor: move;
-	
+
 	border-radius: $border_radius;
 	box-shadow: $shadow_len $shadow_len $shadow_len #888888;
 	background: #000000;
@@ -116,7 +116,7 @@ $creatable_page_height: 1040px;
 	vertical-align: middle;
 	height: 100%;
 	position: relative;
-	
+
 	border-width: 8px;
 	border-style: solid;
 	border-color: #000000;
@@ -143,7 +143,7 @@ $creatable_page_height: 1040px;
 .creatable_title_pict{
 	width: 200px;
 	height: 200px;
-	
+
 	position: absolute;
 	right: 10px;
 	top: 10px;
@@ -157,7 +157,7 @@ $creatable_page_height: 1040px;
 	-webkit-print-color-adjust: exact;
 	display: table;
 	cursor: move;
-	
+
 	border-radius: $border_radius;
 	box-shadow: $shadow_len $shadow_len $shadow_len #888888;
 	background: #000000;
@@ -166,7 +166,7 @@ $creatable_page_height: 1040px;
 	margin: $small_margin;
 	margin-top: 0px;
 	margin-right: 0px;
-	
+
 	font-family: "Arial Black", Gadget, sans-serif;
 	font-size: 16px;
 	line-height: 16px;
@@ -177,7 +177,7 @@ $creatable_page_height: 1040px;
 	display: table-cell;
 	vertical-align: middle;
 	height: 100%;
-	
+
 	border-width: 4px;
 	border-style: solid;
 	border-color: #000000;
@@ -241,15 +241,15 @@ $creatable_page_height: 1040px;
 	margin: $large_margin;
 	margin-top: $medium_margin;
 	margin-bottom: 0px;
-	
-	font-family: "Comic Sans MS", cursive, sans-serif;
+
+	font-family: "Arial Black", Gadget, sans-serif;
 	font-size: 48px;
 	line-height: 48px;
 }
 .small_section_header{
 	width: 144px;
 	height: 144px;
-	
+
 	font-family: "Arial Black", Gadget, sans-serif;
 	font-size: 30px;
 	line-height: 30px;
@@ -259,7 +259,7 @@ $creatable_page_height: 1040px;
 	width: 50px;
 	height: 144px;
 	background: #ffffff;
-	
+
 	font-family: "Arial Black", Gadget, sans-serif;
 	font-size: 48px;
 	line-height: 48px;

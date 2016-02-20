@@ -30,6 +30,9 @@ Creatable.OpenSignUpDialog = function(){
 /*******************SELECT TITLEBAR BUTTONS********************/
 function SelectTitle(e){
 	var button = e.toElement || e.target;
+    if (button.id === "title"){
+        window.open("http://www.yourspecialchef.net/",'_blank');
+    }
 	if (button.id === "new_recipe"){
 		$("#new_dialog").css("display", "block");
 		$("#cropper_grey_out").css("display", "block");
@@ -73,11 +76,11 @@ function MyRecipes(){
 		YourSpecialChef.MyRecipes(function(){
 			CloseDialogs(null);
 			$("#my_recipe_list").html("");
-			
+
 			//Create filler top of list
-			var li = document.createElement('li'); li.className = "no_hover"; 
+			var li = document.createElement('li'); li.className = "no_hover";
 			$("#my_recipe_list").append(li);
-			
+
 			//Append my recipe list with all the LOADED RECIPES
 			for (var i = 0; i < Creatable.MyRecipes.length; i++){
 				var li = document.createElement('li');
@@ -123,14 +126,14 @@ function SelectSide(e){
 	DeselectButtons($(".col_button"));
 	FillerToHD();
 	button.className += " selected";
-	
+
 	//SET THE FILLER
 	var row = button.nextSibling;
 	while (row && row.nodeType != 1){
 		row = row.nextSibling;
 	}
 	row.className = "col_filler";
-	
+
 	//POPULATE THE FILLER
 	if (button.id === "add_step"){
 		$(row).height($(window).height() - $(row).offset().top - (90));
@@ -153,24 +156,24 @@ function SelectAddStep(filler){
 	info.className = "sidebar_info";
 	info.innerHTML = "Drag and Drop steps onto the Recipe";
 	filler.appendChild(info);
-	
+
 	//Append new title
 	var title = CreateNewTitle("red", "title", true);
 	title.style.margin = "12px";
 	title.style.marginBottom = "0px";
 	filler.appendChild(title);
-	
+
 	//Append new section
 	var section = CreateNewSection("blue", "section", true);
 	section.style.margin = "12px";
 	filler.appendChild(section);
-	
+
 	//Append new section number
 	/*var number = CreateNewSectionNumber("1", true);
 	number.style.margin = "12px";
 	number.style.marginLeft = "0px";
 	filler.appendChild(number);*/
-	
+
 	//Append new item
 	var item = CreateNewItem("blue", "item", true);
 	item.style.margin = "12px";
@@ -183,15 +186,15 @@ function SelectAddPicture(filler){
 	var info = document.createElement('div');
 	info.className = "sidebar_info";
 	info.innerHTML = "Drag and Drop Pictures to create or edit items.<br/>(Can also edit title pictures)";
-	
+
 	var search = document.createElement('div');
 	search.className = "sidebar_search";
 	search.innerHTML = "<input type='text' id='picture_search'><span class='search_image' title='Search for pictures by name or category'></span>";
-	
+
 	var waiting = document.createElement('div');
 	waiting.className = "waiting";
 	filler.appendChild(waiting);
-	
+
 	YourSpecialChef.GetPictures(function(pictures){
 		$(filler).html('');
 		$(filler).append($(info));
@@ -208,7 +211,7 @@ function SelectAddPicture(filler){
 				}
 			}
 		});
-		
+
 		Creatable.AppendPicturesToFiller(filler, pictures, true);
 		var clear = document.createElement('div');
 		clear.style.clear = "both";
@@ -227,13 +230,13 @@ function SelectUploadPicture(filler){
 	info.innerHTML = "Upload your pictures.<br/>Drag them onto steps.";
 	filler.appendChild(info);
 	filler.appendChild(document.createElement('br'));
-	
+
 	var input = document.createElement('input');
 	input.type = "file";
 	input.accept = ".png, .PNG, .jpg, .JPG, .jpeg, .JPEG";
 	input.style.margin = "5px";
 	//http://stackoverflow.com/questions/8890064/html5-image-upload
-	
+
 	$(input).on("change", function(e){
 		var files = e.target.files;
 		var reader = new FileReader();
@@ -242,7 +245,7 @@ function SelectUploadPicture(filler){
 		reader.readAsDataURL(files[0]);
 		$(input).val(null);
 	});
-	
+
 	filler.appendChild(input);
 	var upload_drag = document.createElement('div');
 	upload_drag.className = "upload_drag";
@@ -251,7 +254,7 @@ function SelectUploadPicture(filler){
 	p.style.margin = "0 auto";
 	p.innerHTML = "or drag an image to upload it";
 	filler.appendChild(p);
-	
+
 	filler.appendChild(document.createElement('br'));
 	var pictures = Creatable.uploadedImagesCache;
 	Creatable.AppendPicturesToFiller(filler, pictures);
@@ -259,20 +262,20 @@ function SelectUploadPicture(filler){
 	clear.className = "filler_clearer";
 	clear.style.clear = "both";
 	filler.appendChild(clear);
-	
+
 	//Allow images to be dragged and dropped
 	$(filler).unbind('dragover').on("dragover", function(e){
-		e.preventDefault(); 
+		e.preventDefault();
 		e.originalEvent.dataTransfer.effectAllowed = "copy";
 		e.originalEvent.dataTransfer.dropEffect = "copy";
 	});
 	$(filler).unbind('drop').on('drop', function(e){
 		e.preventDefault();
 		e.stopPropagation();
-		var imageUrl = e.originalEvent.dataTransfer.getData('text/html');		
+		var imageUrl = e.originalEvent.dataTransfer.getData('text/html');
 		if($(imageUrl).children().length > 0 ){
 			var url = $(imageUrl).find('img').attr('src');
-		}else{        
+		}else{
 			var url = $(imageUrl).attr('src');
 		}
 		if (url !== undefined && url !== null){
@@ -282,7 +285,7 @@ function SelectUploadPicture(filler){
 			var files = e.originalEvent.dataTransfer.files;
 			var reader = new FileReader();
 			reader.onload = (UploadImage);
-			
+
 			//Read in the image file as a data URL
 			reader.readAsDataURL(files[0]);
 		}
@@ -291,14 +294,14 @@ function SelectUploadPicture(filler){
 
 Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 	if (use_categories === undefined) use_categories = false;
-	
+
 	if (use_categories){
 		pictures.sort(function(a, b){
 			return a.category.localeCompare(b.category);
 		});
 	}
-	
-	var category = null;	
+
+	var category = null;
 	var category_div = null;
 	for (var i = 0; i < pictures.length; i++){
 		if (use_categories){
@@ -316,7 +319,7 @@ Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 				$(cat_div_header).css("outline-top","1px solid black");
 				$(cat_div_header).css("cursor", "pointer");
 				$(cat_div_header).html(category);
-				
+
 				$(cat_div_header).on('click', function(){
 					var children = $(this).parent().children();
 					var clearer = $(children[children.length-1]);
@@ -333,7 +336,7 @@ Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 				category_div.appendChild(cat_div_header);
 			}
 		}
-	
+
 		var img = document.createElement('img');
 		img.src = pictures[i].src;
 		img.name = pictures[i].name;
@@ -341,7 +344,7 @@ Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 			var img = e.target;
 			e.originalEvent.dataTransfer.setData("URL", img.src);
 		});
-	
+
 		var pict = document.createElement('div');
 		pict.className = "picture_button";
 		pict.appendChild(img);
@@ -350,9 +353,9 @@ Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 		pict_name.innerHTML = img.name;
 		$(pict_name).attr('category', category);
 		//pict_name.contentEditable = true;
-		
+
 		pict.appendChild(pict_name);
-		
+
 		if (use_categories){
 			$(pict).css("display", "none");
 			category_div.appendChild(pict);

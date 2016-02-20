@@ -187,7 +187,6 @@ td ul li:hover {
   width: 96px;
   height: 32px;
   font-weight: bold;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .col_button {
@@ -212,8 +211,9 @@ td ul li:hover {
 }
 
 .row_button:hover {
-  background: #222222;
-  color: white;
+  -webkit-filter: invert(1);
+  filter: invert(1);
+  font-weight: bold;
 }
 
 .no_hover:hover {

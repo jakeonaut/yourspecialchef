@@ -2,8 +2,8 @@
 <head>
 <title>Recipe Creator</title>
 <!--force JSON to be null so we can use json2 so we can guarantee no text limit on stringify-->
-<script type="text/javascript"> 
-	JSON = {}; 
+<script type="text/javascript">
+	JSON = {};
 	JSON.stringify = null;
 </script>
 <!--https://github.com/douglascrockford/JSON-js-->
@@ -38,27 +38,32 @@
 <body>
 	<table id="titlebar">
 		<tr>
-			<td class="filler_button" style="width:226px;">YOUR SPECIAL CHEF</td>
-		
+			<td class="row_button" id="title" style="width:226px;font-size: 18px;">
+                <a href="http://www.yourspecialchef.net/" target="_blank">
+                    <img src="content/images/title.png" width="180px"/>
+                    </a>
+            </td>
+
+
 			<td class="row_button" id="new_recipe">NEW RECIPE</td>
-			
-			<td class="row_button" id="my_recipes">
+
+			<!--<td class="row_button" id="my_recipes">
 				MY RECIPES
 				<ul id="my_recipe_list">
 				</ul>
-			</td>
-			
-			<td class="row_button" id="save_recipe">SAVE RECIPE</td>
-		
-			<td class="row_button no_hover"> </td>
-			
-			<td class="row_button" id="submit_recipe">SUBMIT RECIPE</td>
-			
+			</td>-->
+
+			<!--<td class="row_button" id="save_recipe">SAVE RECIPE</td>-->
+
+			<!--<td class="row_button no_hover"> </td>-->
+
+			<!--<td class="row_button" id="submit_recipe">SUBMIT RECIPE</td>-->
+
 			<td class=""></td>
-			
+
 			<td class="row_button" id="print_recipe">PRINT</td>
-			
-			<td class="row_button" id="account_button">LOG IN</td>
+
+			<!--<td class="row_button" id="account_button">LOG IN</td>-->
 		</tr>
 	</table>
 	<div id="sidebar">
@@ -99,11 +104,11 @@
 				<img src="content/images/zoom_in.png">
 			</td>
 		</tr>
-		
+
 		<tr><td><div style="visibility:hidden;">filler</div></td></tr>
 		<tr><td><div style="visibility:hidden;">filler</div></td></tr>
 		<tr><td class="horizontal_divider"><div class="hd"></div></td></tr>
-		
+
 		<tr>
 			<td id="cut" class="img_button" title="Cut Step (CTRL+X)">
 				cut:<br/>
@@ -136,7 +141,7 @@
 			<td id="paint" class="img_button" title="Recolor Step">
 				color:<br/>
 				<img src="content/images/paint.png" width="24" height="24">
-				
+
 				<div id="color-menu">
 					<div class="color-menu-option" title="Change Red (CTRL+R)">
 						<div id="color-menu-option-1" class="red_color color-menu-option-inner"></div>
@@ -158,12 +163,12 @@
 	<div id="creatable_container">
 		<div id="creatable">
 		</div>
-		<div id="trashcan">
+		<div id="trashcan" style="display:none">
 			<img id="trashlid" src="content/images/trashlid.png"/><br/>
 			<img src="content/images/trashbody.png"/>
 		</div>
 	</div>
-	
+
 	<!--DIALOG MARKUP-->
 	<div id="message_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
@@ -177,7 +182,7 @@
 			<input type="submit" value="Okay" onclick="CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-	
+
 	<div id="confirm_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -191,7 +196,7 @@
 			<input id="confirm_dialog_button" type="submit" value="Confirm" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-		
+
 	<div id="new_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -206,7 +211,7 @@
 			<input type="submit" value="New Recipe" onclick="YourSpecialChef.New(); CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-	
+
 	<div id="save_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -221,7 +226,7 @@
 			<input type="submit" value="Save Recipe" onclick="YourSpecialChef.Save(); CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-	
+
 	<div id="submit_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -258,7 +263,7 @@
 			<input type="submit" value="Submit" onclick="YourSpecialChef.Submit(); CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-	
+
 	<div id="account_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -274,7 +279,7 @@
 			<input type="submit" value="Log In" onclick="YourSpecialChef.LogIn(); CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-	
+
 	<div id="signup_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -290,7 +295,7 @@
 			<input type="submit" value="Sign Up" onclick="YourSpecialChef.SignUp(); CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-	
+
 	<div id="logout_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -304,7 +309,7 @@
 			<input type="submit" value="Log Out" onclick="YourSpecialChef.LogOut(); CloseDialogs(null);" class="btn btn-primary"/>
 		</div>
 	</div></div></div>
-			
+
 	<div id="uploaded_picture_cropper_container" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>

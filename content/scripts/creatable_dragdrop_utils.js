@@ -1,6 +1,6 @@
 Creatable.DragItemOntoPage = function(item, page, x, y){
 	var sections = $(".creatable_section_container, .big_section_header").not("[id^=new]");
-	var lowest_y = 0; 
+	var lowest_y = 0;
 	var lowest_section = null;
 	if (sections.length > 0){
 		lowest_y = Creatable.offset(sections[0]).top + Creatable.height(sections[0]);
@@ -10,7 +10,7 @@ Creatable.DragItemOntoPage = function(item, page, x, y){
 			/*if (new_y > y){
 				break;
 			}*/
-			
+
 			if (new_y > lowest_y){
 				lowest_y = new_y;
 				lowest_section = sections[i];
@@ -38,7 +38,7 @@ Creatable.DragItemOntoPage = function(item, page, x, y){
 			section = CreateNewSection(color, "section "+count, false);
 			section.id = "section_" + count;
 		}
-		
+
 		element = document.createElement('div');
 		element.className = "creatable_section_container";
 		element.className += " " + "creatable_try_to_delete";
@@ -53,7 +53,7 @@ Creatable.DragItemOntoPage = function(item, page, x, y){
 		}else{
 			$(lowest_section).after(element);
 		}
-		
+
 		Creatable.ChangeSectionColor(element, color);
 		return true;
 	}
@@ -64,12 +64,12 @@ Creatable.TryToDelete = function(){
 	//IF the newly created section ends with no children, delete it because the user didn't try to drag anything to it and it's now useless
 	var deletable = $(".creatable_try_to_delete");
 	if (deletable.length <= 0) return;
-	
+
 	if (deletable.children().length - 2 < 1){
 		var selected = $(".selected_element");
 		Creatable.SelectElement(deletable);
 		Creatable.deleteElem();
-		
+
 		Creatable.SelectElement(selected);
 	}else{
 		deletable.removeClass("creatable_try_to_delete");
@@ -83,7 +83,7 @@ Creatable.RenumberNumbers = function(){
 		if ($($(section_containers[i]).children()[0]).not("[id^=new]") !== [])
 			sections.push($(section_containers[i]).children()[0]);
 	}
-	
+
 	var on_numbers = false;
 	var count = 0;
 	for (var i = 0; i < sections.length; i++){
@@ -155,16 +155,16 @@ Creatable.FindElementIgnoreZoom = function(x, y, elems, ignore, search_new){
 	return null;
 }
 
-//TRASH CAN MAINTENANCE
-Creatable.UpdateTrash = function(e){
+// CAN MAINTENANCE
+/*Creatable.UpdateTrash = function(e){
 	var x = e.pageX;
 	var y = e.pageY;
-	
+
 	//Look for the trashcan (this needs to be modified a bit
 	var trash = Creatable.FindElementIgnoreZoom(x, y, $("#trashcan"));
 	if (trash !== null){
 		Creatable.ActivateTrash();
-	}else{ 
+	}else{
 		Creatable.DeactivateTrash();
 	}
 }
@@ -176,9 +176,9 @@ Creatable.ActivateTrash = function(){
 }
 
 Creatable.DeactivateTrash = function(){
-	$("#trashlid")[0].removeAttribute("style"); 
+	$("#trashlid")[0].removeAttribute("style");
 	is_trash_active = false;
-}
+}*/
 
 //**********************IMAGE DRAG AND DROP************************/
 //UPDATE TITLES AND ITEMS FOR CORRECT DRAG DROP EVENTS
@@ -202,7 +202,7 @@ Creatable.offset = function(element){
 	if (~~(Creatable.zoom_amount) === 100 || ~~(test.offset().left) === 100){
 		return $(element).offset();
 	}
-	
+
 	var offset = {left: $(element).offset().left * (Creatable.zoom_amount / 100.0),
 			top: $(element).offset().top * (Creatable.zoom_amount / 100.0)};
 	return offset;
@@ -210,7 +210,7 @@ Creatable.offset = function(element){
 
 Creatable.offsetLeft = function(element, value){
 	var test = Creatable.zoomBugTestDiv();
-	
+
 	if (~~(Creatable.zoom_amount) !== 100 && ~~(test.offset().left) !== 100){
 		value = value * (100.0 / Creatable.zoom_amount);
 	}
@@ -219,7 +219,7 @@ Creatable.offsetLeft = function(element, value){
 
 Creatable.offsetTop = function(element, value){
 	var test = Creatable.zoomBugTestDiv();
-	
+
 	if (~~(Creatable.zoom_amount) !== 100 && ~~(test.offset().left) !== 100){
 		value = value * (100.0 / Creatable.zoom_amount);
 	}
@@ -228,17 +228,17 @@ Creatable.offsetTop = function(element, value){
 
 Creatable.width = function(element){
 	var test = Creatable.zoomBugTestDiv();
-	
+
 	if (~~(Creatable.zoom_amount) === 100 || ~~(test.width()) !== 100){
 		return $(element).width();
 	}
-	
+
 	return $(element).width() * (Creatable.zoom_amount / 100.0);
 }
 
 Creatable.setWidth = function(element, value){
 	var test = Creatable.zoomBugTestDiv();
-	
+
 	if (~~(Creatable.zoom_amount) === 100 || ~~(test.width()) !== 100){
 		$(element).width(value);
 	}
@@ -249,17 +249,17 @@ Creatable.setWidth = function(element, value){
 
 Creatable.height = function(element){
 	var test = Creatable.zoomBugTestDiv();
-	
+
 	if (~~(Creatable.zoom_amount) === 100 || ~~(test.height()) !== 100){
 		return $(element).height();
 	}
-	
+
 	return $(element).height() * (Creatable.zoom_amount / 100.0);
 }
 
 Creatable.setHeight = function(element, value){
 	var test = Creatable.zoomBugTestDiv();
-	
+
 	if (~~(Creatable.zoom_amount) === 100 || ~~(test.height()) !== 100){
 		$(element).height(value);
 	}

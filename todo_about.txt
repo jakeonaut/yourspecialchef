@@ -4,12 +4,7 @@ http://v2.yourspecialchef.com/
 -CURRENTLY USING THIS LINK FOR SOME FREE ICONS:: http://findicons.com/
 =============================================================================
 Anna's Requested Update:
-1. Print Changes:
-    a. hide trashcan
-    b. hide my recipes/save recipe/login/etc
-    c. change font from comic sans to arial (??)
 2. add images to add picture area
-3. change get_pictures.php to a javascript ajax request (to eliminate php dependency)
 4. right click to pull up context menu to delete image??? (or change mode)
 
 =============================================================================

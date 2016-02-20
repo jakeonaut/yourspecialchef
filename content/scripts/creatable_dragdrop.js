@@ -13,7 +13,7 @@ Creatable.SetDraggable = function(x, y, element, is_item, is_new, ignored_zoom){
 	}
 	click_x += $("#creatable_container").offset().left;
 	click_y += $("#creatable_container").offset().top;
-	
+
 	if (is_new){
 		element = element.cloneNode(true);
 		RemoveStyleFamilyTree(element);
@@ -45,7 +45,7 @@ Creatable.SetDraggable = function(x, y, element, is_item, is_new, ignored_zoom){
 			element.appendChild(clear);
 		}
 	}
-	
+
 	var draggable = element.cloneNode(true);
 	draggable.style.opacity = "0.8";
 	draggable.style.filter = "alpha(opacity=80)";
@@ -58,17 +58,17 @@ Creatable.SetDraggable = function(x, y, element, is_item, is_new, ignored_zoom){
 		draggable.style.oTransform = "scale(" + (Creatable.zoom_amount / 100.00) + ")";
 		draggable.style.mozTransform = "scale(" + (Creatable.zoom_amount / 100.00) + ")";
 	}
-	
+
 	Creatable.offsetLeft(draggable, (x - click_x));
 	Creatable.offsetTop(draggable, (y - click_y));
 	if (!is_new){
 		Creatable.setWidth(draggable, Creatable.width(element));
 		Creatable.setHeight(draggable, Creatable.height(element));
 	}
-	
+
 	$(element).css("opacity", "0.2");
 	$(element).removeClass("selected_element");
-	
+
 	DisableEditableFamilyTree(draggable);
 	$("#creatable_container")[0].appendChild(draggable);
 
@@ -104,32 +104,32 @@ Creatable.MouseDown = function(e){
 	var is_item = false;
 	var is_new = false;
 	var ignore_zoom = false;
-	
+
 	//Need to account for trying to drag over new item
 	//new items in sidebar are unaffected by creatable zoom level
 	if (x <= $("#sidebar").width()) ignore_zoom = true;
-	else if (Creatable.WithinIgnoreZoom(x, y, $("#quickbar")) || 
+	else if (Creatable.WithinIgnoreZoom(x, y, $("#quickbar")) ||
 		!Creatable.WithinIgnoreZoom(x, y, $("#creatable_container"))
 		|| Creatable.WithinIgnoreZoom(x, y, $("#color-menu"))){
 		return;
 	}
-	
+
 	//If we're inside a textarea, don't try to move the item
 	if (Creatable.FindElement(x, y, $(".creatable_section_inner")) !== null ||	            Creatable.FindElement(x, y, $(".creatable_item_text_inner")) !== null || Creatable.FindElement(x, y, $(".creatable_title_inner")) !== null){
 		return;
 	}
-	
+
 	//Else, find out if we're trying to drag a section or an item box
-	if (ignore_zoom) 
+	if (ignore_zoom)
 		element = Creatable.FindElementIgnoreZoom(x, y, $(".creatable_section_outer"));
 	else element = Creatable.FindElement(x, y, $(".creatable_section_outer"));
 	if (element === null){
-		if (ignore_zoom) 
+		if (ignore_zoom)
 			element = Creatable.FindElementIgnoreZoom(x, y, $(".creatable_item_outer"));
 		else element = Creatable.FindElement(x, y, $(".creatable_item_outer"));
 		if (element !== null){
 			is_item = true;
-			
+
 			if (element.id === "new_item"){
 				is_new = true;
 			}
@@ -148,7 +148,7 @@ Creatable.MouseDown = function(e){
 			}
 		}
 	}
-	
+
 	//LOGIC FOR HANDLING WHETHER WE ARE NORMAL DRAGGING/SELECTING
 	//OR WHETHER WE ARE IN IMAGE EDIT MODE (OR NEED TO ENABLE/DISABLE IT)
 	if (element !== null){
@@ -185,16 +185,16 @@ Creatable.MouseMove = function(e){
 	var x = e.pageX;
 	var y = e.pageY;
 	var should_save = false;
-	
+
 	if (Creatable.dragObj !== null && Creatable.dragObj !== 0){
 		e.preventDefault();
 		var scrollLeftOffset = $("#creatable_container").scrollLeft() - Creatable.dragObj.scroll_x;
 		var scrollTopOffset = $("#creatable_container").scrollTop() - Creatable.dragObj.scroll_y;
 		Creatable.offsetLeft(Creatable.dragObj.draggable, (x - Creatable.dragObj.click_x) + scrollLeftOffset);
 		Creatable.offsetTop(Creatable.dragObj.draggable, (y - Creatable.dragObj.click_y) + scrollTopOffset);
-		
-		Creatable.UpdateTrash(e);
-		
+
+		//Creatable.UpdateTrash(e);
+
 		//Arrange items differently than section heads
 		if (Creatable.dragObj.is_item){
 			var item = Creatable.FindElement(x, y, $(".creatable_item_outer"), Creatable.dragObj.draggable, false);
@@ -207,10 +207,10 @@ Creatable.MouseMove = function(e){
 					MoveNodeToParent(Creatable.dragObj.item, item.parentNode);
 					ChangeItemColor(Creatable.dragObj, item.parentNode);
 				}
-			
+
 				//Swap the two nodes
 				ShiftNodes(item, Creatable.dragObj.item);
-				
+
 				should_save = true;
 			}
 			//EVEN IF ITEM ISN"T BEING DRAGGED ONTO ANOTHER ITEM
@@ -221,7 +221,7 @@ Creatable.MouseMove = function(e){
 					Creatable.dragObj.is_new = false;
 					MoveNodeToParent(Creatable.dragObj.item, section);
 					ChangeItemColor(Creatable.dragObj, section);
-					
+
 					should_save = true;
 				}
 				//ELSE if we are trying to drag this on a potential new section
@@ -238,37 +238,37 @@ Creatable.MouseMove = function(e){
 				section = Creatable.FindElement(x, y, $(".creatable_section_outer"), $(Creatable.dragObj.draggable).children()[0], false);
 			}else{
 			}
-			
+
 			if (section === Creatable.dragObj.draggable) section = null;
 			if (section !== null && section.id !== Creatable.dragObj.item.id){
 				var should_swap = true;
 				//If we're trying to drag a section onto a title,
 				//Don't do it if it doesn't fit within the middle and top part of the title
-				//This is to fix weird wobbling back and forth				
+				//This is to fix weird wobbling back and forth
 				if (y > Creatable.offset(section).top + Creatable.height(Creatable.dragObj.item)){
 					should_swap = false;
 				}
-				
+
 				if (should_swap){
 					if (Creatable.dragObj.is_new){
 						MoveNodeToParent(Creatable.dragObj.item, section.parentNode);
 					}
-				
+
 					Creatable.dragObj.is_new = false;
 					//LET'S SWAP THEM...
 					ShiftNodes(section, Creatable.dragObj.item);
-					
+
 					should_save = true;
 				}
 			}
-			
+
 			//If can't find any item, try to drag it right onto the page
 			if (section === null && Creatable.dragObj.is_new){
 				var page = Creatable.FindElement(x, y, $(".recipe_page"));
 				if (page !== null){
 					page.appendChild(Creatable.dragObj.item);
 					Creatable.dragObj.is_new = false;
-					
+
 					should_save = true;
 				}
 			}
@@ -284,7 +284,7 @@ Creatable.MouseMove = function(e){
 Creatable.MouseUp = function(e){
 	if (!Creatable.CheckDragAndDropAllowed())
 		return;
-	
+
 	var x = e.pageX;
 	var y = e.pageY;
 
@@ -296,22 +296,22 @@ Creatable.MouseUp = function(e){
 			}catch(err){
 				console.log(err);
 			}
-			
+
 			$(Creatable.dragObj.item).removeAttr("style");
 			$(Creatable.dragObj.item).addClass("selected_element");
 			Creatable.UpdateItemRows();
-			
-			if (is_trash_active){
+
+			/*if (is_trash_active){
 				Creatable.dragObj.item.parentNode.removeChild(Creatable.dragObj.item);
 				Creatable.play(Creatable.delete_element_audio);
 				Creatable.UpdatePages();
 				Creatable.UpdateImageDragDropEvents();
-			}
-			
+			}*/
+
 			//Save the state for undo/redo
 			if (Creatable.should_save){
-				if (!is_trash_active)
-					Creatable.play(Creatable.click_element_audio);
+				/*if (!is_trash_active)
+					Creatable.play(Creatable.click_element_audio);*/
 				Creatable.should_save = false;
 				Creatable.saveState();
 			}
@@ -322,7 +322,7 @@ Creatable.MouseUp = function(e){
 			$(".selected_element").removeClass("selected_element");
 		}
 	}
-	Creatable.TryToDelete();
+	//Creatable.TryToDelete();
 	Creatable.dragObj = null;
-	Creatable.DeactivateTrash();
+	//Creatable.DeactivateTrash();
 }
