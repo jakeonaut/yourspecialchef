@@ -61,7 +61,9 @@ YourSpecialChef.GetPictures = function(callback){
 	//I don't know what the client will look like :)
     $.get("./recipe-creator-get-pictures.json", { },
         function(result){
-            result = $.parseJSON(result);
+            try{
+                result = $.parseJSON(result);
+            }catch(e){}
 			if (result.success){
 				callback(result.pictures);
 				//Array of picture objects of this form
