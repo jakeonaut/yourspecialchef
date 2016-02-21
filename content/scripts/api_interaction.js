@@ -100,23 +100,33 @@ YourSpecialChef.RememberLastRecipe = function(){
 
 YourSpecialChef.SaveUploadedImages = function(){
     var uploaded_images_json = JSON.stringify(Creatable.uploadedImagesCache);
-    if (typeof(Storage) !== "undefined")
-        localStorage.setItem("yourspecialchef_uploadedimages", uploaded_images_json);
+    localStorage.removeItem("yourspecialchef_uploadedimages");
+    if (typeof(Storage) !== "undefined"){
+        try{
+            var num = Creatable.uploadedImagesCache.length;
+            localStorage.setItem("yourspecialchef_uploadedimages_count", num);
+            for (var i = 0; i < num; i++){
+                localStorage.setItem("ysc_upimg_"+i, JSON.stringify(Creatable.uploadedImagesCache[i]));
+            }
+        }catch(e){
+        }
+    }
 }
 
 YourSpecialChef.RememberUploadedImages = function(){
+    Creatable.uploadedImagesCache = [];
     if (typeof(Storage) === "undefined") return false;
 
     try{
-        var uploaded_images_json = localStorage.getItem("yourspecialchef_uploadedimages");
-        Creatable.uploadedImagesCache = JSON.parse(uploaded_images_json);
+        var num = JSON.parse(localStorage.getItem("yourspecialchef_uploadedimages_count"));
+        if (num === null || num === undefined || num === "null" || num === "undefined") return;
+
+        for (var i = 0; i < num; i++){
+            var pjson = localStorage.getItem("ysc_upimg_"+i);
+            Creatable.uploadedImagesCache.push(JSON.parse(pjson));
+        }
     }catch(e){
         console.log(e);
-    }
-
-    if (Creatable.uploadedImagesCache === null || Creatable.uploadedImagesCache === undefined ||
-        Creatable.uploadedImagesCache === "null"){
-            Creatable.uploadedImagesCache = [];
     }
 }
 
