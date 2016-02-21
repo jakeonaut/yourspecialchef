@@ -1,5 +1,6 @@
 Creatable.copiedImage = null;
 Creatable.copiedImageParent = null;
+Creatable.has_user_modified_image = false;
 
 Creatable.CopyImageEditableSelected = function(){
 	var color = "#ff00ff";
@@ -85,9 +86,16 @@ Creatable.CreateImageEditable = function(element, color, parent){
 		maxHeight: max_size,
 		maxWidth: max_size,
 		minHeight: min_size,
-		minWidth: min_size
+		minWidth: min_size,
+		resize: function(e, ui){
+			Creatable.has_user_modified_image = true;
+		}
 	});
-	$(element).draggable(/*{ containment: parent }*/);
+	$(element).draggable({
+		drag: function(e, ui){
+			Creatable.has_user_modified_image = true;
+		}
+	});
 	$(element).selectable();
 	$(element).on('mousedown', function(ev){
 		$(".editable_image").removeClass("editable_image_selected");
@@ -147,6 +155,11 @@ Creatable.DisableImageEditables = function(){
 	for (var i = 0; i < editables.length; i++){
 		$(editables[i]).removeClass("image_selected_element");
 		Creatable.SetImageEditable(editables[i], false);
+	}
+
+	if (Creatable.has_user_modified_image){
+		Creatable.saveState();
+		Creatable.has_user_modified_image = false;
 	}
 }
 

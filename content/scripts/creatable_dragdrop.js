@@ -163,7 +163,6 @@ Creatable.MouseDown = function(e){
 			//We are disabling image edit mode
 			if ($(element).hasClass("image_selected_element")){
 				Creatable.DisableImageEditables();
-				Creatable.saveState();
 				Creatable.SelectElement(element);
 			}
 			//We are enabling image edit mode (on another item)

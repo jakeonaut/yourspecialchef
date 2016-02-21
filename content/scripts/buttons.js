@@ -16,17 +16,6 @@ function FillerToHD(){
 	}
 }
 
-Creatable.OpenSignUpDialog = function(){
-	CloseDialogs(null);
-	$("#signup_username").val($("#login_username").val());
-	$("#signup_password").val($("#login_password").val());
-	$("#verify_signup_password").val("");
-	$("#signup_username").on('keyup');
-	$("#signup_dialog").css("display", "block");
-	$("#cropper_grey_out").css("display", "block");
-	Creatable.resize();
-}
-
 /*******************SELECT TITLEBAR BUTTONS********************/
 function SelectTitle(e){
 	var button = e.toElement || e.target;
@@ -110,18 +99,26 @@ function PrintRecipe(){
 	$(".selected_element").removeClass("selected_element");
 	Creatable.SelectElement(null);
 
-	var pri = window.open('', 'recipe');
-	pri.document.write('<html><head><title>recipe</title>');
-	pri.document.write('<link rel="stylesheet" href="content/creatable.css" type="text/css"/>');
-	pri.document.write('</head><body>');
-	pri.document.write($("#creatable").html());
-	pri.print();
-	pri.close();
+	try{
+		var pri = window.open('', 'yourspecialchef recipe');
+		pri.document.write('<html><head><title>recipe</title>');
+		pri.document.write('<link rel="stylesheet" href="content/creatable.css" type="text/css"/>');
+		pri.document.write('</head><body>');
+		pri.document.write($("#creatable").html());
+		pri.document.write("</body></html>");
+		pri.print();
+		pri.close();
+	}catch(e){
+		alert(e);
+		console.log(e);
+	}
+
 	selected.addClass("selected_element");
 }
 
 /*******************SELECT SIDEBAR BUTTONS**********************/
 function SelectSide(e){
+	Creatable.DeselectElements();
 	var button = e.toElement || e.target;
 	DeselectButtons($(".col_button"));
 	FillerToHD();
