@@ -105,7 +105,7 @@
         {
             "category": "food",
             "name": "bread crumbs",
-            "src": "content/images/recipe/bread crumbs.png"
+            "src": "content/images/recipe/breadcrumbs.png"
         },
         {
             "category": "food",
@@ -115,7 +115,7 @@
         {
             "category": "food",
             "name": "brown sugar",
-            "src": "content/images/recipe/brownsugar"
+            "src": "content/images/recipe/brownsugar.png"
         },
         {
             "category": "food",
@@ -125,7 +125,7 @@
         {
             "category": "food",
             "name": "cake mix",
-            "src": "content/images/recipe/cake mix.png"
+            "src": "content/images/recipe/cakemix.png"
         },
         {
             "category": "food",
