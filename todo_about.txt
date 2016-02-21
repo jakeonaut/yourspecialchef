@@ -8,9 +8,9 @@ Anna's Requested Update:
 1. allow deleting uploaded images
     (right click?) and remove from local storage
 2. right click to pull up context menu to delete image??? (or change mode)
-3. add images to add picture area
 
 ***BUG::: sometimes loading loads wonkily???
+***BUG:: sometimes printing doesn't display correctly?
 
 =======CROSS BROWSER COMPATIBILITY BUGS=======================================
 1. ContentEditable doesn't work in Safari
