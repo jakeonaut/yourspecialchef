@@ -20,18 +20,13 @@ $(function(){
 	$(window).resize(Creatable.resize);
 
 	//the YourSpecialChef object can be found in api_interaction.js
+  if (!YourSpecialChef.RememberLastRecipe())
+      YourSpecialChef.New();
+  YourSpecialChef.RememberUploadedImages();
+	Creatable.DeselectElements();
 	//Need to initially save the state?
-    if(typeof(Storage) !== "undefined") {
-        // Code for localStorage/sessionStorage.
-        if (!YourSpecialChef.RememberLastRecipe())
-            YourSpecialChef.New();
-        YourSpecialChef.RememberUploadedImages();
-    } else {
-        // Sorry! No Web Storage support..
-        YourSpecialChef.New();
-    }
-	//YourSpecialChef.Save();
 	Creatable.saveState();
+
 	$("#undo").click(Creatable.undo);
 	$("#undo").hover(function(e){
 		if (Creatable.state_index <= 0){
@@ -129,58 +124,6 @@ $(function(){
 			Creatable.saveState();
 		}
 		return $this;
-	});
-
-	//Signup Account clientside verification
-	$("#signup_username, #signup_password, #verify_signup_password").on('keyup', function(){
-		var email_re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		//VALIDATE EMAILS
-		$("#signup_username_verification").css("color", "#ffaaaa");
-		if ($("#signup_username").val().length <= 0){
-			$("#signup_username_verification").html("An email is required.");
-		}else if (!email_re.test($("#signup_username").val())){
-			$("#signup_username_verification").html("Email is invalid.");
-		}else{
-			$("#signup_username_verification").css("color", "#00aa00");
-			$("#signup_username_verification").html("Valid email :)");
-		}
-
-		var password_strength = zxcvbn($("#signup_password").val());
-		//VALIDATE PASSWORD
-		$("#signup_password_verification").css("color", "#ffaaaa");
-		if ($("#signup_password").val().length <= 0){
-			$("#signup_password_verification").html("A password is required.");
-		}else{
-			switch (password_strength.score){
-				default:case 0:
-					$("#signup_password_verification").css("color", "#ff0000");
-					$("#signup_password_verification").html("Password is very weak.");
-					break;
-				case 1:
-					$("#signup_password_verification").html("Password is weak.");
-					break;
-				case 2:
-					$("#signup_password_verification").css("color", "#ff8c00");
-					$("#signup_password_verification").html("Password is OK.");
-					break;
-				case 3:
-					$("#signup_password_verification").css("color", "#00ff00");
-					$("#signup_password_verification").html("Password is strong.");
-					break;
-				case 4:
-					$("#signup_password_verification").css("color", "#00aa00");
-					$("#signup_password_verification").html("Password is very strong.");
-					break;
-			}
-		}
-
-		if ($("#signup_password").val() !== $("#verify_signup_password").val()){
-			$("#verify_signup_password_verification").css("color", "#ffaaaa");
-			$("#verify_signup_password_verification").html("Passwords must match");
-		}else{
-			$("#verify_signup_password_verification").css("color", "#00aa00");
-			$("#verify_signup_password_verification").html("Passwords match");
-		}
 	});
 
 	CloseDialogs = function(e){
