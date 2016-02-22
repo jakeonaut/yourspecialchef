@@ -106,7 +106,7 @@ function PrintRecipe(){
 		pri.document.write('</head><body>');
 		pri.document.write($("#creatable").html());
 		pri.document.write("</body></html>");
-		pri.print();
+		setTimeout(function(){pri.print();}, 3000);
 		//pri.close();
 	}catch(e){
 		alert(e);
