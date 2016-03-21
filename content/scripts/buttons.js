@@ -17,6 +17,21 @@ function FillerToHD(){
 }
 
 /*******************SELECT TITLEBAR BUTTONS********************/
+//http://stackoverflow.com/questions/3665115/create-a-file-in-memory-for-user-to-download-not-through-server
+var createDownloadLink = function(anchorSelector, str, fileName){
+	if(window.navigator.msSaveOrOpenBlob) {
+		var fileData = [str];
+		blobObject = new Blob(fileData);
+		$(anchorSelector).click(function(){
+			window.navigator.msSaveOrOpenBlob(blobObject, fileName);
+		});
+	} else {
+		var url = "data:application/xml;charset=utf-8," + encodeURIComponent(str);
+		$(anchorSelector).attr("download", fileName);
+		$(anchorSelector).attr("href", url);
+	}
+}
+
 function SelectTitle(e){
 	var button = e.toElement || e.target;
     if (button.id === "title"){
@@ -27,21 +42,31 @@ function SelectTitle(e){
 		$("#cropper_grey_out").css("display", "block");
 		Creatable.resize();
 	}
-	if (button.id === "my_recipes") MyRecipes();
+	//if (button.id === "my_recipes") MyRecipes();
 	if (button.id === "save_recipe"){
-		$("#save_dialog").css("display", "block");
+		var json = JSON.stringify({html: $("#creatable").html()});
+		var title = "Your Special Chef Recipe";
+		try{
+			title = $(".creatable_title_inner")[0].innerHTML;
+		}catch(e){}
+		title += ".yscRecipe";
+		createDownloadLink("#save_your_recipe_link", json, title);
+		$("#save_your_recipe_link")[0].click();
+	}
+	if (button.id === "load_recipe"){
+		$("#load_dialog").css("display", "block");
 		$("#cropper_grey_out").css("display", "block");
 		Creatable.resize();
 	}
-	if (button.id === "submit_recipe"){
+	/*if (button.id === "submit_recipe"){
 		$("#submit_dialog").css("display", "block");
 		$("#cropper_grey_out").css("display", "block");
 		if (YourSpecialChef.account_email !== null)
 			$("#submit_username").val(YourSpecialChef.account_email);
 		Creatable.resize();
-	}
+	}*/
 	if (button.id === "print_recipe") PrintRecipe();
-	if (button.id === "account_button"){
+	/*if (button.id === "account_button"){
 		if (YourSpecialChef.IsSignedIn()){
 			$("#logout_dialog").css("display", "block");
 			$("#cropper_grey_out").css("display", "block");
@@ -53,10 +78,33 @@ function SelectTitle(e){
 			$("#cropper_grey_out").css("display", "block");
 			Creatable.resize();
 		}
-	}
+	}*/
 }
 
-function MyRecipes(){
+function LoadRecipe(){
+		var fileinput = $(document.createElement("input"));
+
+		fileinput.attr('type', "file");
+		fileinput.attr('accept', ".yscRecipe");
+		fileinput.on('change', function(e){
+			var file = fileinput[0].files[0];
+			var reader = new FileReader();
+			reader.onload = function(e){
+				var data = reader.result;
+
+				try{
+					var obj = JSON.parse(data);
+					$("#creatable").html(obj.html);
+				}catch(e){
+					console.log(e);
+				}
+			}
+			reader.readAsText(file);
+		});
+		$(fileinput).click();
+}
+
+/*function MyRecipes(){
 	if ($("#my_recipe_list").css("display") === "block"){
 		$("#my_recipe_list").css("display", "none");
 	}
@@ -92,7 +140,7 @@ function MyRecipes(){
 			$("#my_recipe_list").css("top", 18+$("#my_recipes").offset().top+$("#my_recipes").height());
 		});
 	}
-}
+}*/
 
 function PrintRecipe(){
 	var selected = $(".selected_element");
