@@ -48,14 +48,14 @@
 
 
 			<td class="row_button" id="new_recipe">NEW RECIPE</td>
+			<td class="row_button" id="save_recipe">SAVE RECIPE</td>
+			<td class="row_button" id="load_recipe">LOAD RECIPE</td>
 
 			<!--<td class="row_button" id="my_recipes">
 				MY RECIPES
 				<ul id="my_recipe_list">
 				</ul>
 			</td>-->
-
-			<!--<td class="row_button" id="save_recipe">SAVE RECIPE</td>-->
 
 			<!--<td class="row_button no_hover"> </td>-->
 
@@ -229,6 +229,21 @@
 		</div>
 	</div></div></div>
 
+	<div id="load_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Load Recipe</h2>
+		</div>
+		<div class="modal-body">
+			Are you sure you wish to load a recipe?<br/><br/>
+			You will lose any unsaved progress on the current recipe!
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Load Recipe" onclick="LoadRecipe(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+
 	<div id="submit_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>
@@ -332,5 +347,6 @@
 		</div>
 	</div></div></div>
 	<div id="cropper_grey_out"></div>
+	<a id="save_your_recipe_link" download="" href="#" style="display:none;"></a>
 </body>
 </html>
