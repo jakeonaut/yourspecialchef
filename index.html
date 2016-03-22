@@ -199,6 +199,20 @@
 		</div>
 	</div></div></div>
 
+	<div id="delete_image_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
+		<div class="modal-header">
+			<div class="close_container">X</div>
+			<h2>Delete Image?</h2>
+		</div>
+		<div class="modal-body">
+			Are you sure you wish to remove the uploaded image?<br/>
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Cancel" onclick="CloseDialogs(null);" class="btn btn-default"/>
+			<input type="submit" value="Delete" onclick="DeleteUploadedImage(); CloseDialogs(null);" class="btn btn-primary"/>
+		</div>
+	</div></div></div>
+
 	<div id="new_dialog" class="dialog_container modal"><div class="modal-dialog"><div class="modal-content">
 		<div class="modal-header">
 			<div class="close_container">X</div>

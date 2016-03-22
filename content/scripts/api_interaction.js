@@ -113,6 +113,12 @@ YourSpecialChef.SaveUploadedImages = function(){
     }
 }
 
+YourSpecialChef.DeleteUploadedImage = function(index){
+	localStorage.removeItem("ysc_upimg_"+(Creatable.uploadedImagesCache.length-1));
+	Creatable.uploadedImagesCache.splice(index, 1);
+	YourSpecialChef.SaveUploadedImages();
+}
+
 YourSpecialChef.RememberUploadedImages = function(){
     Creatable.uploadedImagesCache = [];
     if (typeof(Storage) === "undefined") return false;

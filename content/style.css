@@ -250,6 +250,7 @@ td ul li:hover {
 }
 
 .picture_button {
+  position: relative;
   float: left;
   width: 96px;
   height: 128px;

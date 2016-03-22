@@ -3,6 +3,15 @@ var cui_height;
 var cui_mLeft;
 var cui_mTop;
 
+Creatable.uploadedImagesCache = [];
+
+//sorry my code is so messy and gross
+var uploaded_image_to_be_deleted_index; //this is set in buttons.js when the delete X is clicked
+var DeleteUploadedImage = function(){
+	YourSpecialChef.DeleteUploadedImage(uploaded_image_to_be_deleted_index);
+	$("#upload_picture").click();
+}
+
 var UploadImage = function(ev, filler){
 	$("#uploaded_picture_cropper_container").css("display", "block");
 	$("#cropper_grey_out").css("display", "block");
@@ -34,7 +43,7 @@ var UploadImage = function(ev, filler){
 		var img_name = $("#image_name_input").val();
 
 		Creatable.uploadedImagesCache.push({name: img_name, src: c.toDataURL()});
-        YourSpecialChef.SaveUploadedImages();
+    	YourSpecialChef.SaveUploadedImages();
 		CloseDialogs();
 		SelectUploadPicture(filler);
 		$(img).remove();

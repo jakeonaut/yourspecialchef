@@ -1,46 +1,12 @@
-http://v2.yourspecialchef.com/
--http://www.americangreetings.com/share/cnpworkspace.pd?order_url=https%3A//www.americangreetings.com/join/fom.pd%3Fapp%3Dcnpapp%26amp%3Bpurl%3Dhttp%253A//www.americangreetings.com/printable-cards/happy-birthday/oh-boy-its-your-birthday/pn/3370566%253FN%253D384079%252B374446%252B374900%2526Ns%253DP_NEWNESS%25257C1%25257C%25257CP_PERFORMANCE_NUMBER%25257C1%2526&baseurl=http://ak.imgag.com/imgag/apps/labs/createx/&url=http://ak.imgag.com/imgag/apps/labs/createx/CNP.swf&product=3337788&N=384079&amp;Ns=P_NEWNESS%7C1%7C%7CP_PERFORMANCE_NUMBER%7C1
-
--CURRENTLY USING THIS LINK FOR SOME FREE ICONS:: http://findicons.com/
-=============================================================================
-Anna's Requested Update:
------------------------------------------------------------------------------
-1. allow deleting uploaded images
-    (right click?) and remove from local storage
+============================================================================
 2. right click to pull up context menu to delete image??? (or change mode)
 
-***BUG::: sometimes loading loads wonkily???
-***BUG:: sometimes printing doesn't display correctly?
+  ***BUG::: sometimes loading loads wonkily???
+  ***BUG:: sometimes printing doesn't display correctly?
 
 =======CROSS BROWSER COMPATIBILITY BUGS=======================================
 1. ContentEditable doesn't work in Safari
 3. Zoom doesn't work in firefox
 4. sidebar shadows don't work on IE
 6. PRINT doesn't work in IE
-
-==============================================================================
-
-http://www.fontsquirrel.com/fonts/exo
-
-0. functionally pretty much the same -> just new graphical design
-	-default recipes: want to browse through them with tags (invisible tumblr tags) -> ingrediants, type, specialness
-
-1. i'm working on a application that hooks up to her main website
-	-like the online things where you make things:: intuitively create recipes of similar format
-		-examples:: www.americangreetings.com creatable (look like me)
-	-one set format?? multiple formats?? drag around? custom formats?
-		-normal format (high contrast)
-		-color-blind mode
-		-scalable
-		-landscape and portrait
-			-export as xml, read by the "format reader"
-
-	-make it so they can
-		-save recipes to their account ->
-		-make pdfs ->
-		-submit it to anna's website/email for approval
-
-		-allow them to cut out backgrounds of images they upload (like the elf myself)
-	-exportable to a tablet/mobile pdf/website (swipe left and right, touch left and right to see an individual step)
-
-	-built in tutorial
+================================
