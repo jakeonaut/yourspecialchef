@@ -41,10 +41,12 @@ var UploadImage = function(ev, filler){
 			0, 0, c.width, c.height);
 
 		var csmall = document.createElement('canvas');
-		csmall.width = 96;
-		csmall.height = 96;
-		csmall.style.width = "96px";
-		csmall.style.height = "96px";
+		var width = c.width > 192 ? 192 : c.width;
+		var height = c.height > 192 ? 192 : c.height;
+		csmall.width = width;
+		csmall.height = height;
+		csmall.style.width = width+"px";
+		csmall.style.height = height+"px";
 		csmall.getContext('2d').drawImage(c,
 			0, 0, c.width, c.height,
 			0, 0, csmall.width, csmall.height);
