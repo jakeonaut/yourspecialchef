@@ -264,9 +264,6 @@ function SelectAddPicture(filler){
 	});
 }
 
-Creatable.uploadedImagesCache = [];
-
-
 //http://deepliquid.com/content/Jcrop_Download.html
 function SelectUploadPicture(filler){
 	filler.innerHTML = "";
@@ -381,6 +378,7 @@ Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 				category_div.appendChild(cat_div_header);
 			}
 		}
+		var uploaded_images = !use_categories;
 
 		var img = document.createElement('img');
 		img.src = pictures[i].src;
@@ -400,6 +398,30 @@ Creatable.AppendPicturesToFiller = function(filler, pictures, use_categories){
 		//pict_name.contentEditable = true;
 
 		pict.appendChild(pict_name);
+
+		//add delete button...
+		if (uploaded_images){
+			var close = document.createElement("div");
+			close.style.position = "absolute";
+			close.style.right = "6px";
+			close.style.top = "3px";
+			close.style.color = "red";
+			close.style.fontSize = "16px";
+			close.style.textShadow = "-1px 0 white, 0 1px white, 1px 0 white, 0 -1px white";
+			close.innerHTML = "X";
+			close.style.cursor = "pointer";
+			close.style.zIndex = "999";
+			close.title = "delete image";
+
+			close.onclick = function(i){
+				uploaded_image_to_be_deleted_index = i;
+				$("#delete_image_dialog").css("display", "block");
+				$("#cropper_grey_out").css("display", "block");
+				Creatable.resize();
+			}.bind(this, i);
+
+			pict.appendChild(close);
+		}
 
 		if (use_categories){
 			$(pict).css("display", "none");
