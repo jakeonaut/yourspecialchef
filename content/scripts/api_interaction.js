@@ -12,6 +12,10 @@ Creatable.ProcessingRequest = function(){
 	Creatable.resize();
 }
 
+YourSpecialChef.GetRecipe = function(){
+	return LZString.compressToUTF16($("#creatable").html());
+}
+
 YourSpecialChef.New = function(){
 	YourSpecialChef.has_alerted = false;
 	var current = (" "+$("#creatable").html()+" ").replace(/\s{2,}/g, ' ').replace(/></g,'> <');
@@ -80,7 +84,7 @@ YourSpecialChef.GetPictures = function(callback){
 
 YourSpecialChef.has_alerted = false;
 YourSpecialChef.SaveLastRecipe = function(){
-	var recipe_json = Creatable.getState();
+	var recipe_json = YourSpecialChef.GetRecipe();
     if (typeof(Storage) !== "undefined"){
 		try{
         	localStorage.setItem("yourspecialchef_recipe", recipe_json);
@@ -101,7 +105,8 @@ YourSpecialChef.RememberLastRecipe = function(){
         var recipe_json = localStorage.getItem("yourspecialchef_recipe");
         if (recipe_json === null || recipe_json === undefined || recipe_json === "null")
             return false;
-        $("#creatable").html(recipe_json);
+		var html = LZString.decompressFromUTF16(recipe_json);
+        $("#creatable").html(html);
     }catch(e){
         console.log(e);
         return false;
@@ -117,7 +122,7 @@ YourSpecialChef.SaveUploadedImages = function(){
             var num = Creatable.uploadedImagesCache.length;
             localStorage.setItem("yourspecialchef_uploadedimages_count", num);
             for (var i = 0; i < num; i++){
-                localStorage.setItem("ysc_upimg_"+i, JSON.stringify(Creatable.uploadedImagesCache[i]));
+                localStorage.setItem("ysc_upimg_"+i, LZString.compressToUTF16(JSON.stringify(Creatable.uploadedImagesCache[i])));
             }
         }catch(e){
         }
@@ -139,8 +144,8 @@ YourSpecialChef.RememberUploadedImages = function(){
         if (num === null || num === undefined || num === "null" || num === "undefined") return;
 
         for (var i = 0; i < num; i++){
-            var pjson = localStorage.getItem("ysc_upimg_"+i);
-            Creatable.uploadedImagesCache.push(JSON.parse(pjson));
+            var pimg = localStorage.getItem("ysc_upimg_"+i);
+            Creatable.uploadedImagesCache.push(JSON.parse(LZString.decompressFromUTF16(pimg)));
         }
     }catch(e){
         console.log(e);

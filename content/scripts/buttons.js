@@ -52,7 +52,8 @@ function SelectTitle(e){
 			console.log(e);
 		}
 		title += ".yscRecipe";
-		createDownloadLink("#save_your_recipe_link", json, title);
+		createDownloadLink("#save_your_recipe_link", YourSpecialChef.GetRecipe(), title);
+		console.log($("#save_your_recipe_link"));
 		$("#save_your_recipe_link")[0].click();
 	}
 	if (button.id === "load_recipe"){
@@ -96,8 +97,9 @@ function LoadRecipe(){
 				var data = reader.result;
 
 				try{
-					var obj = JSON.parse(data);
-					$("#creatable").html(obj.html);
+					var html = LZString.decompressFromUTF16(data);
+					$("#creatable").html(html);
+					YourSpecialChef.SaveLastRecipe();
 				}catch(e){
 					console.log(e);
 				}
