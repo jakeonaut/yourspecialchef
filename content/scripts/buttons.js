@@ -48,7 +48,9 @@ function SelectTitle(e){
 		var title = "Your Special Chef Recipe";
 		try{
 			title = $(".creatable_title_inner")[0].innerHTML;
-		}catch(e){}
+		}catch(e){
+			console.log(e);
+		}
 		title += ".yscRecipe";
 		createDownloadLink("#save_your_recipe_link", json, title);
 		$("#save_your_recipe_link")[0].click();
@@ -82,6 +84,7 @@ function SelectTitle(e){
 }
 
 function LoadRecipe(){
+		YourSpecialChef.has_alerted = false;
 		var fileinput = $(document.createElement("input"));
 
 		fileinput.attr('type', "file");
@@ -299,6 +302,22 @@ function SelectUploadPicture(filler){
 
 	filler.appendChild(document.createElement('br'));
 	var pictures = Creatable.uploadedImagesCache;
+	//search for nulls and remove them
+	var i = 0;
+	var there_was_a_null = false;
+	while (i < Creatable.uploadedImagesCache.length){
+		if (Creatable.uploadedImagesCache[i] === null){
+			//alert("null!");
+			Creatable.uploadedImagesCache.splice(i, 1);
+			there_was_a_null = true;
+			localStorage.removeItem("ysc_upimg_"+(Creatable.uploadedImagesCache.length-1));
+			continue;
+		}
+		i++;
+	}
+	if (there_was_a_null){
+		YourSpecialChef.SaveUploadedImages();
+	}
 	Creatable.AppendPicturesToFiller(filler, pictures);
 	var clear = document.createElement('div');
 	clear.className = "filler_clearer";
