@@ -13,6 +13,7 @@ Creatable.ProcessingRequest = function(){
 }
 
 YourSpecialChef.New = function(){
+	YourSpecialChef.has_alerted = false;
 	var current = (" "+$("#creatable").html()+" ").replace(/\s{2,}/g, ' ').replace(/></g,'> <');
 	//EMPTY THE RECIPE
 	$("#creatable").html("");
@@ -77,10 +78,20 @@ YourSpecialChef.GetPictures = function(callback){
     );
 }
 
+YourSpecialChef.has_alerted = false;
 YourSpecialChef.SaveLastRecipe = function(){
 	var recipe_json = Creatable.getState();
-    if (typeof(Storage) !== "undefined")
-        localStorage.setItem("yourspecialchef_recipe", recipe_json);
+    if (typeof(Storage) !== "undefined"){
+		try{
+        	localStorage.setItem("yourspecialchef_recipe", recipe_json);
+		}catch(e){
+			if (!YourSpecialChef.has_alerted){
+				alert("Warning! Your recipe has gotten too large for local storage!\n\nMake sure to save your recipe to a file if you want to edit it later.");
+				YourSpecialChef.has_alerted = true;
+			}
+			localStorage.removeItem("yourspecialchef_recipe");
+		}
+	}
 }
 
 YourSpecialChef.RememberLastRecipe = function(){

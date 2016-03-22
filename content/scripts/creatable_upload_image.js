@@ -40,9 +40,18 @@ var UploadImage = function(ev, filler){
 			cui_width*ratio, cui_height*ratio,
 			0, 0, c.width, c.height);
 
+		var csmall = document.createElement('canvas');
+		csmall.width = 96;
+		csmall.height = 96;
+		csmall.style.width = "96px";
+		csmall.style.height = "96px";
+		csmall.getContext('2d').drawImage(c,
+			0, 0, c.width, c.height,
+			0, 0, csmall.width, csmall.height);
+
 		var img_name = $("#image_name_input").val();
 
-		Creatable.uploadedImagesCache.push({name: img_name, src: c.toDataURL()});
+		Creatable.uploadedImagesCache.push({name: img_name, src: csmall.toDataURL()});
     	YourSpecialChef.SaveUploadedImages();
 		CloseDialogs();
 		SelectUploadPicture(filler);
