@@ -41,8 +41,8 @@ var UploadImage = function(ev, filler){
 			0, 0, c.width, c.height);
 
 		var csmall = document.createElement('canvas');
-		var width = c.width > 192 ? 192 : c.width;
-		var height = c.height > 192 ? 192 : c.height;
+		var width = c.width > 256 ? 256 : c.width;
+		var height = c.height > 256 ? 256 : c.height;
 		csmall.width = width;
 		csmall.height = height;
 		csmall.style.width = width+"px";
